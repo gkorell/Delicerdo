@@ -1,0 +1,169 @@
+{# src/Blogger/BlogBundle/Resources/views/Producto/list.html.twig #}
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+
+    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/recetas.css'%}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% stylesheets 'bundles/todocerdotodocerdo/css/reveal.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+{% endblock %}
+
+
+{% block body %}
+
+<h2>Productos en tipo de producto {{tipoProducto.nombre}}</h2>
+    
+<ul class="column-190 paging">
+    {% for producto in productos %}
+    <li>
+        <div class="highlight-one">
+            <a href="#" name="{{producto.id}}" class="modal_desc">
+                <img class="img_producto" src="{{ asset(producto.getWebPath()) }}" alt="{{producto.nombre}}">
+            </a>
+            <a href="#" name="{{producto.id}}" class="modal_desc recipe-title" title="{{ producto.nombre }}"><strong>{{ producto.nombre }}</strong></a>
+            <div class="div_detalle"><p>Pieza de {{producto.pesoAproximado|number_format(2, ',', '.')}} Kg. aproximadamente.</div>
+            <p>Precio {{producto.precio}} $/Kg</p>
+            <div class="cant_comprar">
+            <div class="price-box">
+                <span id="product-price_{{producto.id}}" class="regular-price" itemprop="price">
+                    <span class="price">{{producto.calcularPrecio()}} $</span>
+                </span>
+                <br>
+                <span class="ivaincl">IVA Incl.</span>
+            </div>
+            <div class="actions">
+                    <form name="form_{{producto.id}}">
+                    <table>
+                        <tbody>
+                            <tr>
+                               <td><input type="text" class="cantidad" name="cantidad_{{producto.id}}" id="cantidad_{{producto.id}}" maxlength="5" value="1"></td>
+                               <td>
+                                   {% image '@TodoCerdoTodoCerdoBundle/Resources/public/images/mas.jpg' %}
+                                        <img class="mas" id="mas"src="{{ asset_url }}" onclick="add(this.form,'cantidad_{{producto.id}}',+1);"/>
+                                   {% endimage %}
+                                   {% image '@TodoCerdoTodoCerdoBundle/Resources/public/images/menos.jpg' %}
+                                        <img class="mas" id="menos"src="{{ asset_url }}" onclick="add(this.form,'cantidad_{{producto.id}}',-1);"/>
+                                   {% endimage %}
+                                   
+                               </td>
+                               <td>
+                                   <button class="boton_comp btn-cart-gris" title="Comprar" type="button" 
+                                           onClick="agregarProducto(this.form, {{producto.id}})" >
+                                    <span>
+                                        <span>Comprar</span>
+                                    </span>
+                                    </button>
+                               </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                          
+                            
+                    </form>
+                </div>
+            </div>
+         
+        </div>
+        {% if is_granted("ROLE_ADMIN") %}
+            <a class="editar" href="{{ path('TodoCerdoTodoCerdoBundle_editarproducto',{'idProducto':producto.id}) }}">Editar</a>
+            {% endif %}
+    </li>
+    {% else %}
+        
+        No hay productos
+        
+    {%endfor%}
+</ul>
+<br/>
+<br/>
+<ul>
+    <li>
+        {% if is_granted("ROLE_ADMIN") %}
+        <a  href="{{ path('TodoCerdoTodoCerdoBundle_newproducto') }}">Agregar un producto</a>
+        {% endif %}
+    </li>
+    <br/>
+    <li>
+        <a href="{{ path('TodoCerdoTodoCerdoBundle_productos') }}">Volver</a>
+    </li>
+</ul>        
+<div id="myModal" class="reveal-modal"></div>
+
+{% endblock %}
+    
+{% block javascripts %}
+{{ parent() }}
+{#{% javascripts
+    '@TodoCerdoTodoCerdoBundle/Resources/public/js/*'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}#}     
+
+
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+        
+        $(".modal_desc").click(function(){//evento on click
+            
+            var id = $(this).attr("name");
+            var url = "{{ path('TodoCerdoTodoCerdoBundle_descripcion') }}";
+            
+            $.ajax({
+                type:"GET",
+                url:url,
+                data:"id="+id,//concateno dos string
+                success: function(data){
+                            //agregar validacion del success en caso que no retorne bien la descripcion
+                          $("#myModal").html(data);//myModal es un elemento html con ese id
+                          $('#myModal').reveal();//reveal es un metodo de una clase de ventanas modales
+               }        
+            });//make sure the the response is in json format
+
+            //we dont what the browser to submit the form
+            return false;
+            });
+            
+            
+                   
+ 
+    
+});
+    
+    function add(formulario,nombre,cantidad) {
+                var caja=document.getElementById(nombre);
+                valor=caja.value;
+                valor = parseInt(valor)+parseInt(cantidad,10);
+                if (valor<0) {
+                    valor=0;
+                }
+                caja.value=valor;
+            }
+   function agregarProducto(formulario,productoId){
+       var cantidad= document.getElementById("cantidad_"+productoId).value;
+       var url = "{{ path('TodoCerdoTodoCerdoBundle_addDetalle') }}";
+      
+       
+       $.ajax({
+           type : "Get",
+           url: url,
+           data: {cantidad: cantidad, productoId:productoId },
+           success: function(data){
+               $(".subtotal").html(data);
+           }
+       });
+       
+       return false;
+       
+   }
+
+</script>
+
+{% endblock %}

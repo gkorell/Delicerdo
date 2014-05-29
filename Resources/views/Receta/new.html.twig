@@ -1,0 +1,26 @@
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block body %}
+
+<header>
+    <h2>Alta de Recetas</h2>
+</header>
+
+    <p>Datos de la receta</p>
+
+<form class="blogger" action="{{ path('receta_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+   
+    <input type="submit" value="Guardar" />
+  
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('receta') }}">
+            Volver al listado
+        </a>
+    </li>
+</ul>
+{{ tinymce_init() }}    
+{% endblock %}

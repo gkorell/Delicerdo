@@ -1,0 +1,96 @@
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/recetas.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+{% stylesheets 'bundles/todocerdotodocerdo/css/reveal.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+{% endblock %}
+
+{% block body %}
+<h1>Listado de Recetas</h1>
+
+<ul class="column-190 paging">
+    
+{% for entity in entities %}
+<li>
+     <div class="highlight-one">
+    
+    <a href="#" name="{{entity.id}}" class="modal_desc"><img src="{{ asset(entity.getWebPath()) }}" alt="Guineos con camarones en escabeche" height="135" width="186"></a>
+    <a href="#" name="{{entity.id}}" class="modal_desc recipe-title" title="{{ entity.titulo }}"><strong>{{ entity.titulo }}</strong></a>
+    
+      <dl>
+          <dd>{{entity.descripcion}}</dd>
+          <br/>
+          <br/>
+        <dt>Autor:</dt>
+        <dd>Doreen Colondres</dd>
+        {% if is_granted("ROLE_ADMIN") %}
+             <dd><a href="{{ path('receta_edit', { 'id': entity.id }) }}">Editar</a></dd>
+        {% endif %}
+        
+      </dl>
+    </div>
+  </li>
+{% else %}
+  </ul>
+  <p>Podr&aacute; consultar recetas proximamente</p>
+        
+{% endfor %}
+</ul>
+<br/>
+<ul>
+    <li>
+        {% if is_granted("ROLE_ADMIN") %}
+     
+            <a href="{{ path('receta_new') }}">
+                Crear una nueva receta
+            </a>
+        {% endif %}
+    </li>
+</ul>
+<div id="myModal" class="reveal-modal"></div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{#{% javascripts
+    '@TodoCerdoTodoCerdoBundle/Resources/public/js/*'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}#}     
+
+
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+        
+        $(".modal_desc").click(function(){
+            
+            var id = $(this).attr("name");
+            var url = "{{ path('receta_descripcion') }}";
+            
+            $.ajax({
+                type:"GET",
+                url:url,
+                data:"id="+id,
+                success: function(data){
+                            //agregar validacion del success en caso que no retorne bien la descripcion
+                          $("#myModal").html(data);
+                          $('#myModal').reveal();
+               }        
+            });//make sure the the response is in json format
+
+            //we dont what the browser to submit the form
+            return false;
+            });
+ 
+    });
+
+</script>
+
+{% endblock %}

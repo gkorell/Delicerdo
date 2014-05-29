@@ -1,0 +1,22 @@
+{# src/TodoCerdo/TodoCerdoBundle/Resources/views/Page/index.html.twig #}
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets 'bundles/todocerdotodocerdo/css/style1.css' filter='cssrewrite' %} 
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    
+    
+{% endblock %}
+
+{% block body %}
+{#TodoCerdo #}
+    
+   {% include 'TodoCerdoTodoCerdoBundle:Page:slide1.html.twig' %}
+    
+{% endblock %}
+{% block sidebar %}
+    {# heredamos el sidebar que viene de layout.html.twig. #}
+   {{ parent() }} 
+{% endblock %}

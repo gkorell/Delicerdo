@@ -1,0 +1,116 @@
+{# Dar ubicacion: Pedido #}
+{# src/TodoCerdo/TodoCerdoBundle/Resources/views/Pedido/darUbicacion.html.twig #}
+{#
+ # * Tiene el botón "Continuar". Supongo que cuando hago click en el paso el objeto
+ # Direccion a la vista "HacerPedido.twig".
+ # * Cargo el formulario "DireccionType.php".
+ # * En el controlador, cargo las direcciones de los usuarios.
+ # * Hacer el checkbox de de direcciones guardadas del usuario.
+ #}
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block title %}darUbicacion{% endblock%}
+
+{% block body %}
+
+
+<header>
+    <h2>Dar Ubicaci&oacute;n</h2>
+</header>
+
+<div>
+    {#Cargo formulario "DireccionType.php". #}
+        <form class="blogger" 
+              action="{{ path('TodoCerdoTodoCerdoBundle_darUbicacion') }}" 
+              method="post" {{ form_enctype(form) }} >
+
+                {{ form_row(form.Localidad)}}
+            <div id= "zona">
+
+                {{ form_row(form.Zona)}}    
+            </div>
+            <div id="calle">
+
+                {{form_row(form.Calle)}}
+            </div>
+                {{form_rest(form)}}
+
+            <input type="submit" value="Agregar Direcci&oacute;n" />
+
+        </form>
+    {#Boton Continuar #}
+        <input type="button" value="Continuar con el pedido."/>
+    </div>   
+    <div>
+        <label class=" required" for="direccion">Direccion</label>
+
+        <select id="direccion" required="required" name="direccion">
+{% for direccion in direccion %}
+{#aca hacer el select cargando las zonas#}
+
+                <option value="{{direccion.id}}">{{direccion.nombre}}</option>
+
+
+
+
+{%endfor%}
+
+            </select>
+
+
+        </div>
+{% endblock %}
+
+ {% block javascripts %}
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+                $("#direccion").change(function() {
+                    var idDireccion = $(this).val();
+                    var urlDireccion = "{{path('TodoCerdoTodoCerdoBundle_obtenerDireccion')}}";
+                    $.ajax({
+                        type: "GET",
+                        url: urlDireccion,
+                        data: "idDireccion=" + idDireccion,
+                        success: function(data) {
+                            //$.each(data, function(i,item){
+                            $('.blogger').html(data);
+                            //$(".blogger #calle #direccion_Calle").val=data.calle;
+                            //console.log($('form #calle').html(data));
+                            //});
+                        },
+                        error: function(data) {
+                            alert("ERROR");
+                        }
+
+                    })
+                });
+                $("#direccion_Localidad").change(function() {//evento on click
+
+                    var id = $(this).val();
+                    //console.log(id);
+                    var url = "{{ path('TodoCerdoTodoCerdoBundle_obtenerBarrios') }}";
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        data: "id=" + id, //concateno dos string
+                        success: function(data) {
+                            //agregar validacion del success en caso que no retorne bien la descripcion
+
+                            //aca le tengo que decir que cambie el contenido del select
+                            $("#zona").html(data);
+                        }
+                    });//make sure the the response is in json format
+
+                    //we dont what the browser to submit the form
+                    return false;
+                });
+
+            });
+
+            </script>
+
+{% endblock %}

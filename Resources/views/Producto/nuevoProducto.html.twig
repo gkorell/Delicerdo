@@ -1,0 +1,35 @@
+{# empty Twig template #}
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block title %}Alta de Producto{% endblock%}
+
+{% block body %}
+    <header>
+        <h2>Alta de Producto</h2>
+    </header>
+
+    <p>Datos del producto</p>
+
+    <form class="blogger" action="{{ path('TodoCerdoTodoCerdoBundle_newproducto') }}" method="post" {{ form_enctype(form) }} class="blogger">
+        {{ form_errors(form) }}
+        
+        {{ form_row(form.nombre) }}
+        {{ form_row(form.descripcion) }}
+        {{ form_row(form.precio) }}
+        {{ form_row(form.detalle) }}
+        {{ form_row(form.pesoAproximado) }}
+        {{ form_row(form.tipoProducto) }}
+        {{ form_rest(form) }}
+
+        <input type="submit" value="Guardar" />
+       
+    </form>
+    
+    <ul class="record_actions">
+    <li>
+        <a href="{{ path('TodoCerdoTodoCerdoBundle_productos') }}">
+            Volver al listado
+        </a>
+    </li>
+</ul>
+{% endblock %}

@@ -1,0 +1,77 @@
+{# empty Twig template #}
+
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+
+
+{% block body %}
+<h1>Carrito de Compras</h1>
+<div id="tablaDetalle">
+<table>
+    <tr>
+        <td>Eliminar</td>
+        <td>Foto</td>
+        <td>Nombre del Producto</td>
+        
+        <td>Precio Unitario</td>
+        <td>Cantidad</td>
+        <td>Subtotal</td>
+    </tr>
+{% set cant = 0 %}    
+
+{% for detalle in carrito %}
+    <tr>
+        <td>
+            {% image '@TodoCerdoTodoCerdoBundle/Resources/public/images/delete.png' %}
+              <img class="delete" id="{{cant}}" name="{{detalle.calcularSubtotal}}" src="{{ asset_url }}"/>
+            {% endimage %}
+        </td>
+        <td><img src="{{asset(detalle.producto.getWebPath())}}"></td>
+        <td>{{detalle.producto.getNombre()}}</td>
+        <td>{{detalle.producto.calcularPrecio()}}</td>
+        <td>{{detalle.cantidad}}</td>
+        <td>{{detalle.calcularSubtotal}}</td>
+    </tr>
+    {% set cant=cant+1 %}
+{%endfor%}
+    
+</table>
+
+Total General : {{precioTotal}}
+</div>
+<button>Continuar Comprando</button>
+<button>Finalizar Pedido</button>
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+    
+        $('.delete').live('click',function(){
+            var id = $(this).attr("id");
+            var sub = $(this).attr("name");
+            var url = "{{ path('TodoCerdoTodoCerdoBundle_eliminarDetalle') }}";
+            
+            $.ajax({
+                type:"GET",
+                url:url,
+                data:{elemento: id, subtotal:sub },
+                success: function(data){
+                $('#tablaDetalle').html(data);
+            }
+             });
+        
+        });
+    
+    
+    });
+</script>
+    
+{% endblock %}

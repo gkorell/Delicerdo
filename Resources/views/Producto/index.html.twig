@@ -1,0 +1,48 @@
+{# empty Twig template #}
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/productos.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+{% endblock %}
+
+{% block body %}
+<h1>Nuestros Productos</h1>
+
+ <ul class="column-190_prod paging">
+    {% for tipoProducto in tipoProductos %}
+          <li>
+            <div class="highlight-one">
+                <div class="prod-title"><label>L&iacute;nea de {{ tipoProducto.nombre }}</label></div>
+                <hr class="prod-line">
+                <a href="{{ path('TodoCerdoTodoCerdoBundle_listproductos',{'idTipo':tipoProducto.id}) }}">
+                    {%if tipoProducto.id == '1' %}
+                        {% image '@TodoCerdoTodoCerdoBundle/Resources/public/images/bondiola1.jpg' %}
+                        <img src="{{ asset_url }}" height="135" width="186"/>
+                        {% endimage %}
+                        
+                    {%elseif tipoProducto.id == '2'%}
+                        {% image '@TodoCerdoTodoCerdoBundle/Resources/public/images/lomitocurado1.jpg' %}
+                        <img src="{{ asset_url }}" height="135" width="186"/>
+                        {% endimage %}
+                        
+                    {%else %}
+                        {% image '@TodoCerdoTodoCerdoBundle/Resources/public/images/chori1.jpg' %}
+                        <img src="{{ asset_url }}" height="135" width="186"/>
+                        {% endimage %}
+                        
+                    {% endif %}
+                </a>
+            </div>
+          </li>        
+    
+    {%endfor%}
+          
+ </ul>  
+{% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('TodoCerdoTodoCerdoBundle_newproducto') }}">Agregar un producto</a>
+        {% endif %}
+{% endblock %}

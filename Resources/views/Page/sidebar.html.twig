@@ -1,0 +1,41 @@
+{# Vista del sidebar #}
+{# Envio a la vista darUbicacion.html.twig el idUsuario. #}
+
+<section class="section">
+  
+
+
+        <div class="carro">
+
+
+            <p>Mi carrito</p>
+            
+             <div class="subtotal">
+                     ({{cantidadTotal| default('0')}}) Subtotal:
+                     <span>$ {{precioTotal|number_format(2, '.', ',') | default('0.00')}}</span>
+            </div>
+           
+            <div class="boton-carro">
+                
+                <p  class="boton-link">Finalizar Compra</p>
+            </div>
+            <div class="boton-carro">
+                <p  class="boton-link">
+                    <a href="{{ path('TodoCerdoTodoCerdoBundle_detalleCarrito') }}">Ver Carrito</a>
+                </p>
+            </div>
+
+            
+            </div>
+            
+
+        </div>
+           
+       
+            
+       
+       
+       
+    
+</section>
+   

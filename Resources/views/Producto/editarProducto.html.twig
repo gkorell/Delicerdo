@@ -1,0 +1,39 @@
+{# empty Twig template #}
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block title %}Alta de Producto{% endblock%}
+
+{% block body %}
+    <p>Editar producto</p>
+
+   <form class="blogger" action="{{ path('TodoCerdoTodoCerdoBundle_updateproducto', { 'idProducto': producto.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+   
+     {{ form_row(edit_form.nombre) }}
+     {{ form_row(edit_form.descripcion) }}
+     {{ form_row(edit_form.precio) }}
+     {{ form_row(edit_form.detalle) }}
+     {{ form_row(edit_form.pesoAproximado) }}
+     {{ form_row(edit_form.file) }}    
+     {{ form_row(edit_form.tipoProducto) }}
+     {#{% form_theme edit_form 'TodoCerdoTodoCerdoBundle:Form:fields.html.twig' %}#}
+    {#{% form_theme edit_form 'TodoCerdoTodoCerdoBundle:Form:campo_select.html.twig' %}#}
+     {{ form_row(edit_form.tipoCocciones) }}
+     {{ form_rest(edit_form) }}
+    
+     
+   
+    <p>
+        <input type="submit" value="Editar"/>
+    </p>
+</form>
+
+<form class="blogger" action="{{ path('TodoCerdoTodoCerdoBundle_deleteproducto', { 'idProducto': producto.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <input type="submit" value="Borrar"/>
+</form>
+    
+<a style="float:left; margin-top: 16px; margin-left: 29px;" href="{{ path('TodoCerdoTodoCerdoBundle_productos') }}">
+            Volver al listado
+</a>
+    
+{% endblock %}

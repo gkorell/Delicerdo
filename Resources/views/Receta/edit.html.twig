@@ -1,0 +1,35 @@
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block body %}
+<h1>Receta edit</h1>
+
+<form class="blogger" action="{{ path('receta_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {% autoescape false %}
+    {{ form_row(edit_form.titulo) }}
+    {{ form_row(edit_form.file) }}
+    {{ form_row(edit_form.descripcion) }}
+    
+    {{ form_row(edit_form.detalle)}}
+    {{ tinymce_init() }}  
+
+    {{form_rest(edit_form)}} 
+    {% endautoescape %}
+    <p>
+        <button type="submit">Edit</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('receta') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('receta_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

@@ -1,0 +1,50 @@
+{# empty Twig template #}
+{% extends '::base.html.twig'%}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets 'bundles/todocerdotodocerdo/css/screen.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% stylesheets 'bundles/todocerdotodocerdo/css/menu.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+        
+    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/forms.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+        
+    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/boton.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    
+    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/sidebar.css' filter='cssrewrite' %}    
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+        
+    {% stylesheets 'bundles/todocerdotodocerdo/css/cart.css' filter='cssrewrite' %} 
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block sidebar %}
+   {# Renderizamos el sidebar, pero no en home. #}
+   {% render controller("TodoCerdoTodoCerdoBundle:Page:sidebar") %}
+   
+{% endblock %}
+    
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts '@TodoCerdoTodoCerdoBundle/Resources/public/js/jquery-1.7.2.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
+    {% javascripts '@TodoCerdoTodoCerdoBundle/Resources/public/js/jquery.reveal.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+     
+     
+
+{% endblock %}

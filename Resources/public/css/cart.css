@@ -1,0 +1,56 @@
+.carro{
+    background-image: url("../images/carrito.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+    
+    text-align: left;
+    padding: 0 0 0 80px;
+    
+        
+        
+}
+.carro p{
+    margin-bottom: 4px;
+    font-size: 18px;
+    font-weight: 600;
+    
+    
+}
+.subtotal{
+    color: green;
+}
+.boton-carro{
+    background: #5c4831;
+    border-radius: 10px 10px 10px 10px;
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    color: orange;
+    display: block;
+        
+}
+.carro .boton-link{
+    
+    color: orange;
+    font-weight: normal;
+    font-size: 14px;
+    padding: 3px;
+    margin: 1px;
+    
+}
+
+.boton-carro:hover{
+    background: #DBB258;
+    cursor: pointer;
+ 
+        
+}
+
+.boton-carro:hover .boton-link{
+    color: #5c4831;
+    
+         
+}
+

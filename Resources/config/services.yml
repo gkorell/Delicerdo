@@ -1,0 +1,7 @@
+parameters:
+#    todo_cerdo_todo_cerdo.example.class: TodoCerdo\TodoCerdoBundle\Example
+
+services:
+#    todo_cerdo_todo_cerdo.example:
+#        class: %todo_cerdo_todo_cerdo.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

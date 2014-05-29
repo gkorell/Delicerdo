@@ -1,0 +1,9 @@
+<h1>{{ receta.titulo }}</h1>
+
+<div>
+    <img src="{{ asset(receta.getWebPath()) }}" height="120" width="160">
+    {#{% autoescape false %}#}
+    {{ receta.detalle|raw }}
+    {#{% endautoescape %}#}
+</div>
+<a class="close-reveal-modal">&#215;</a>

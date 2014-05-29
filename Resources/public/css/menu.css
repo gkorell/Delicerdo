@@ -1,0 +1,36 @@
+img{border:none}
+#wrap {
+                width: 970px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+#menu li {
+                display: inline;
+                list-style: none;
+                padding: 0;
+          }
+            
+#menu li a {
+                
+                border: 0px solid gold;
+                padding: 30px 50px 30px 50px;
+                text-decoration: none;
+                color:gold;
+                margin-left: -15px;
+                /* This is the background used for the animation */
+                background-image: url(../images/pediahora.jpg);
+                /* Align the image position to the left of the a */
+                background-position: left;
+                -webkit-transition: all 0.8s ease-in-out;
+                /* Animation with transition in Firefox (No supported Yet) */
+                -moz-transition: all 0.8s ease-in-out;
+                /* Animation with transition in Opera (No supported Yet)*/
+                -o-transition: all 0.8s ease-in-out;
+            }
+            
+#menu li a:hover {
+                color: #5c4831;
+                /* Align the image position of the background to the right*/
+                background-position:right;
+            }

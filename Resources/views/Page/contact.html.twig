@@ -1,0 +1,36 @@
+{# src/TodoCerdo/TodoCerdoBundle/Resources/views/Page/contact.html.twig #}
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    
+{% endblock %}
+    
+{% block title %}Contacto{% endblock%}
+
+{% block body %}
+    <header>
+        <h2>Contacto con Todo Cerdo</h2>
+    </header>
+
+{# esto es para la salida de los mensajes flash #}
+{% for flashMessage in app.session.FlashBag.get('blogger-notice') %}
+
+    <div class="blogger-notice">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+    <p>¿Desea contactarce con nosotros para enviarnos sugerencias o preguntas?</p>
+    <form class="blogger" action="{{ path('TodoCerdoTodoCerdoBundle_contact') }}" method="post" {{ form_enctype(form) }} class="blogger">
+        {{ form_errors(form) }}
+        {{ form_row(form.nombre) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.asunto) }}
+        {{ form_row(form.mensaje) }}
+
+        {{ form_rest(form) }}
+
+        <input type="submit" value="Enviar" />
+    </form>
+{% endblock %}

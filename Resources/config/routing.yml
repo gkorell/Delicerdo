@@ -1,0 +1,128 @@
+TodoCerdoTodoCerdoBundle_homepage:
+    pattern:  /
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Page:index }
+    requirements:
+        _method:  GET
+        
+TodoCerdoTodoCerdoBundle_about:
+    pattern:  /about
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Page:about }
+    requirements:
+        _method:  GET
+        
+TodoCerdoTodoCerdoBundle_contact:
+    pattern:  /contact
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Page:contact }
+    requirements:
+        _method:  GET|POST
+        
+TodoCerdoTodoCerdoBundle_faq:
+    pattern:  /faq
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Page:faq }
+    requirements:
+        _method:  GET
+
+
+TodoCerdoTodoCerdoBundle_newproducto:
+    pattern:  /newproducto
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Producto:new }
+
+TodoCerdoTodoCerdoBundle_productos:
+    pattern:  /producto
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Producto:index }
+    
+TodoCerdoTodoCerdoBundle_listproductos:
+    pattern:  /listproducto{idTipo}
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Producto:list }
+    
+TodoCerdoTodoCerdoBundle_editarproducto:
+    pattern:  /editarproducto{idProducto}
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Producto:editar }
+    
+TodoCerdoTodoCerdoBundle_deleteproducto:
+    pattern:  /deleteproducto{idProducto}
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Producto:delete }
+  
+TodoCerdoTodoCerdoBundle_updateproducto:
+    pattern:  /updateproducto{idProducto}
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Producto:update }
+
+TodoCerdoTodoCerdoBundle_descripcion:
+    pattern:  /descripcion
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Producto:descripcion }
+    requirements: { _method: get }
+    
+TodoCerdoTodoCerdoBundle_addDetalle:
+    pattern:  /addDetalle
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:addDetalle }
+    requirements: { _method: get }
+    
+TodoCerdoTodoCerdoBundle_eliminarDetalle:
+    pattern:  /eliminarDetalle
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:eliminarDetalle }
+    requirements: { _method: get }
+    
+    
+TodoCerdoTodoCerdoBundle_darUbicacion:
+    pattern:  /darUbicacion/{idUsuario}
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:darUbicacion, idUsuario: 0 }
+    requirements: { _method: GET|POST}
+   
+TodoCerdoTodoCerdoBundle_obtenerBarrios:
+    pattern:  /obtenerBarrios
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:obtenerBarrios }
+    requirements: { _method: GET}
+
+TodoCerdoTodoCerdoBundle_obtenerDireccion:
+    pattern:  /obtenerDireccion
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:obtenerDireccion }
+    requirements: { _method: GET}
+    
+TodoCerdoTodoCerdoBundle_detalleCarrito:
+    pattern:  /detalleCarrito
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:detalleCarrito }
+    requirements: { _method: GET}
+    
+    
+
+receta:
+    pattern:  /receta
+    defaults: { _controller: "TodoCerdoTodoCerdoBundle:Receta:index" }
+
+receta_show:
+    pattern:  /receta/{id}/show
+    defaults: { _controller: "TodoCerdoTodoCerdoBundle:Receta:show" }
+
+receta_new:
+    pattern:  /receta/new
+    defaults: { _controller: "TodoCerdoTodoCerdoBundle:Receta:new" }
+
+receta_create:
+    pattern:  /receta/create
+    defaults: { _controller: "TodoCerdoTodoCerdoBundle:Receta:create" }
+    requirements: { _method: post }
+
+receta_edit:
+    pattern:  /receta/{id}/edit
+    defaults: { _controller: "TodoCerdoTodoCerdoBundle:Receta:edit" }
+
+receta_update:
+    pattern:  /receta/{id}/update
+    defaults: { _controller: "TodoCerdoTodoCerdoBundle:Receta:update" }
+    requirements: { _method: post }
+
+receta_delete:
+    pattern:  /receta/{id}/delete
+    defaults: { _controller: "TodoCerdoTodoCerdoBundle:Receta:delete" }
+    requirements: { _method: post }
+
+receta_descripcion:
+    pattern:  receta/descripcion
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Receta:descripcion }
+    requirements: { _method: get }
+    
+login_check:
+    pattern: /login_check
+
+logout:
+    pattern: /logout

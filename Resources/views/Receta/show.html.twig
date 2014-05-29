@@ -1,0 +1,32 @@
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block body %}
+<h1>{{ entity.titulo }}</h1>
+
+<div>
+    <img src="{{ asset(entity.getWebPath()) }}" height="120" width="160">
+    {% autoescape false %}
+    {{ entity.detalle }}
+    {% endautoescape %}
+</div>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('receta') }}">
+            Volver al listado de recetas
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('receta_edit', { 'id': entity.id }) }}">
+            Editar
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('receta_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Borrar</button>
+        </form>
+    </li>
+</ul>
+
+{% endblock %}

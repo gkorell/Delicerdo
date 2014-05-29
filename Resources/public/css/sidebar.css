@@ -1,0 +1,20 @@
+/* 
+    Document   : sidebar
+    Created on : 02-mar-2013, 7:50:55
+    Author     : aldobracamonte
+    Description:
+        Css del sidebar. Tambien contiene boton.
+*/
+
+.sidebar { 
+    width: 239px; 
+    padding: 10px; 
+    display: inline-block; 
+    border-left: 1px solid #BF9F56;
+    min-height: 470px;
+}
+
+.sidebar .section { 
+    margin-bottom: 20px; 
+}
+

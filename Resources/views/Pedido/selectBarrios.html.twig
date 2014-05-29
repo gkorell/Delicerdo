@@ -1,0 +1,15 @@
+{# vista con los select de todos los barrios #}
+<label class=" required" for="direccion_Zona">Zona</label>
+
+<select id="direccion_Zona" required="required" name="direccion[Zona]">
+{% for zona in zonas %}
+{#aca hacer el select cargando las zonas#}
+
+    <option value="{{zona.id}}">{{zona.nombre}}</option>
+
+  
+
+
+{%endfor%}
+
+</select>

@@ -1,0 +1,78 @@
+html,div,span,dl,dt,dd,ol,ul,li{
+    border:0;
+    font-size:100%;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0
+}
+
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{
+    display:block
+}
+ol,ul{
+    list-style:none}
+
+blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}
+
+table{border-collapse:collapse;border-spacing:0}
+
+body {
+    border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0;line-height:1;
+ /* fallback */ 
+ background-color: #3E2C05; background-image: url(images/radial_bg.png); background-position: center center; background-repeat: no-repeat; 
+ /* Safari 4-5, Chrome 1-9 */ /* Can't specify a percentage size? Laaaaaame. */ 
+ background: -webkit-gradient(radial, center center, 0, center center, 460, from(#1a8200), to(#E3AF2D)); 
+ /* Safari 5.1+, Chrome 10+ */ 
+ background: -webkit-radial-gradient(circle, #FDE868, #704500); 
+ /* Firefox 3.6+ */ 
+ background: -moz-radial-gradient(circle, #FDE868, #704500); 
+/* IE 10 */ 
+background: -ms-radial-gradient(circle, #FDE868, #704500); 
+/* O
+pera cannot do radial gradients yet */ 
+}
+title {font-family: 'Lobster', cursive;}
+h1 {font-family: 'Bowlby One', sans-serif; color: #5c4831}
+p {font-family: 'Quattrocento Sans', sans-serif; color:  #5c4831}
+.clear { clear: both; }
+
+#wrapper {
+    line-height: 1;font-family: 'Quattrocento Sans', sans-serif;font-size: 12px;
+    color: #000; font-size: 14px; 
+    background-color:  #fbf4bb;
+    
+   background-image: url(../images/background6_1.jpg); background-repeat: repeat-x;
+    margin: 0px auto;
+    width: 1000px; height: 100%; }
+#wrapper a { text-decoration: none; color:  #F48A00; }
+#wrapper span.highlight { color: #F2D983; }
+
+#header { border-bottom: 1px solid #BF9F56; margin-bottom: 0px;}
+#header .top { border-bottom: 0px solid #ccc; margin-bottom: 0px;background-color: #000000; }
+#header ul.navigation { list-style: none; text-align: right; }
+#header .navigation li { display:  inline; margin: 0}
+#header .navigation li a { display: inline-block; padding: 10px 30px; border-left: 0px ridge gold;  }
+#header h1 { font-family: 'Bowlby One', sans-serif;}
+#header h2 { font-family: 'Bowlby One', sans-serif; font-size: 92px; text-align: center; line-height: 110px; }
+#header h2 a { color: #000; }
+#header h3 { text-align: center; font-family: 'Quattrocento Sans', sans-serif; font-size: 24px; margin-bottom: 20px; font-weight: normal; }
+
+.main-col { width: 700px; display: inline-block; float: left; padding: 20px; margin-bottom: 0px; min-height: 450px; }
+
+
+.main-col a { color: #5c4831; }
+.main-col h1,
+.main-col h2
+    { line-height: 1.2em; font-size: 32px; margin-bottom: 10px; font-weight: normal; color: #5c4831; }
+.main-col p { line-height: 1.5em; margin-bottom: 20px; }
+
+#footer {
+    background-image: url(../images/background.png);
+    border-top: 1px solid #ccc; 
+    clear: both; 
+    text-align: center; 
+    padding: 10px; 
+    color: #aaa; 
+}
+
