@@ -1,6 +1,6 @@
 <?php
 // src/TodoCerdo/TodoCerdoBundle/Controller/ProductoController.php
-
+//Controller de producto
 namespace TodoCerdo\TodoCerdoBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
