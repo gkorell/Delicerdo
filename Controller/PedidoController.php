@@ -31,10 +31,10 @@ class PedidoController extends Controller {
         $ObjUsuario = null;
         if ($idUsuario == 0) {
 
-            $usuario = $this->get('security.context')->getToken()->getUser();
+            $usuario = $this->get('security.context')->getToken()->getUser()->getUsername();
             $ObjUsuario = $this->getDoctrine()
                     ->getRepository('TodoCerdoTodoCerdoBundle:Usuario')
-                    ->findOneByusername($usuario);
+                    ->findOneByUsername($usuario);
             if ($ObjUsuario) {
                 $idUsuario = $ObjUsuario->getId();
             }
@@ -49,7 +49,7 @@ class PedidoController extends Controller {
 
         //aca persisto la direccion
         if ($request->getMethod() == "POST") {
-            $direccion->setUsuario($ObjUsuario);
+            $direccion->setUsuario($ObjUsuario); //explota porque $ObjUsuario viene null
             $form->bind($request);
 
             if ($form->isValid()) {
@@ -169,7 +169,7 @@ class PedidoController extends Controller {
         $carrito = array_values($carrito);
         
         $precioTotal = $precioTotal - $precio;
-        $cantitadTotal = $cantitadTotal -1;
+        $cantidadTotal = $cantidadTotal -1;
         
         $session->set('precioTotal',$precioTotal);
         $session->set('cantidadTotal',$cantidadTotal);

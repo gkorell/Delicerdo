@@ -86,8 +86,15 @@ class Pedido
     protected $usuario;
     
     
-    
-
+    /**
+     * @var "direccion"
+     * 
+     * @ORM\ManyToOne(targetEntity="direccion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="direccion_id", referencedColumnName="id")
+     * })
+     */
+    protected $direccion;
 
 
 
@@ -262,6 +269,27 @@ class Pedido
     public function getUsuario()
     {
         return $this->usuario;
+    }
+    
+    
+    /**
+     * Set direccion
+     *
+     * @param TodoCerdo\TodoCerdoBundle\Entity\Direccion $direccion
+     */
+    public function setDireccion(\TodoCerdo\TodoCerdoBundle\Entity\Direccion $direccion)
+    {
+        $this->direccion = $direccion;
+    }
+
+    /**
+     * Get direccion
+     *
+     * @return TodoCerdo\TodoCerdoBundle\Entity\Direccion 
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
     }
     
 }
