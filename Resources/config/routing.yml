@@ -83,7 +83,10 @@ TodoCerdoTodoCerdoBundle_detalleCarrito:
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:detalleCarrito }
     requirements: { _method: GET}
     
-    
+TodoCerdoTodoCerdoBundle_continuarPedido:
+    pattern:  /continuarPedido
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:continuarPedido}
+    requirements: { _method: GET}
 
 receta:
     pattern:  /receta

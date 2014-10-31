@@ -1,12 +1,6 @@
 {# Dar ubicacion: Pedido #}
 {# src/TodoCerdo/TodoCerdoBundle/Resources/views/Pedido/darUbicacion.html.twig #}
-{#
- # * Tiene el botón "Continuar". Supongo que cuando hago click en el paso el objeto
- # Direccion a la vista "HacerPedido.twig".
- # * Cargo el formulario "DireccionType.php".
- # * En el controlador, cargo las direcciones de los usuarios.
- # * Hacer el checkbox de de direcciones guardadas del usuario.
- #}
+
 {% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
 
 {% block title %}darUbicacion{% endblock%}
@@ -39,7 +33,7 @@
 
         </form>
     {#Boton Continuar #}
-        <input type="button" value="Continuar con el pedido."/>
+        <input id="continuar" type="button" value="Continuar con el pedido."/>
     </div>   
     <div>
         <label class=" required" for="direccion">Direccion</label>
@@ -63,10 +57,28 @@
 
  {% block javascripts %}
 
-
+     {{ parent() }}
         <script type="text/javascript">
 
             $(document).ready(function() {
+                
+                $("#continuar").click(function() { //evento click del boton continuar pedido
+                    var direccion = $('.blogger').serialize();
+                    var urlDireccion = "{{path('TodoCerdoTodoCerdoBundle_continuarPedido')}}";
+                    $.ajax({
+                        type: "GET",
+                        url: urlDireccion,
+                        data: "direccion=" + direccion,
+                        success: function(data) {
+                            console.log(data);
+                        },
+                        error: function(data) {
+                            alert("ERROR");
+                        }
+                    });
+                    
+                });
+                
                 $("#direccion").change(function() {
                     var idDireccion = $(this).val();
                     var urlDireccion = "{{path('TodoCerdoTodoCerdoBundle_obtenerDireccion')}}";
@@ -85,8 +97,9 @@
                             alert("ERROR");
                         }
 
-                    })
+                    });
                 });
+                
                 $("#direccion_Localidad").change(function() {//evento on click
 
                     var id = $(this).val();

@@ -23,6 +23,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class PedidoController extends Controller {
+    
 
     public function darUbicacionAction($idUsuario) {
         // El idUsuario trae el idUsuario o puede traer en caso de que no este 
@@ -43,13 +44,15 @@ class PedidoController extends Controller {
         $direccion = new Direccion();
 
 
-        $form = $this->createForm(new DireccionType(), $direccion);
+        
 
         $request = $this->getRequest();
 
         //aca persisto la direccion
         if ($request->getMethod() == "POST") {
-            $direccion->setUsuario($ObjUsuario); //explota porque $ObjUsuario viene null
+            $form = $this->createForm(new DireccionType(), $direccion);
+            
+            $direccion->setUsuario($ObjUsuario); 
             $form->bind($request);
 
             if ($form->isValid()) {
@@ -63,7 +66,7 @@ class PedidoController extends Controller {
         $localidad = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
         //aca tengo que cargar el campo select
 
-
+        $form = $this->createForm(new DireccionType(), $direccion[0]);
 
         return $this->render('TodoCerdoTodoCerdoBundle:Pedido:darUbicacion.html.twig', array(
                     'form' => $form->createView(), 'direccion' => $direccion, 'localidad' => $localidad, 'usuario' => $idUsuario));
@@ -197,7 +200,19 @@ class PedidoController extends Controller {
                 array('carrito'=> $carrito,
                       'precioTotal'=>$precioTotal));
     }
-            
+    
+    
+    public function continuarPedidoAction(){
+        
+        
+        $session = $this->getRequest()->getSession();
+        
+        $direccion = $this->getRequest()->get("direccion");
+        
+        $session->set("direccionEnvio", $direccion);
+        
+        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarritoAjax.html.twig');
+    }        
 
     
 }
