@@ -1,0 +1,76 @@
+{# agregarDireccion: Pedido #}
+{# src/TodoCerdo/TodoCerdoBundle/Resources/views/Pedido/agregarDireccion.html.twig #}
+
+{% block title %}Agregar Direcci&oacute;n{% endblock%}
+
+{% block body %}
+
+
+<header>
+    <h2>Agregar Direcci&oacute;n</h2>
+</header>
+<div>
+    {#Cargo formulario "DireccionType.php". #}
+        <form class="blogger" 
+              action="{{ path('TodoCerdoTodoCerdoBundle_agregarDireccion') }}" 
+              method="post" {{ form_enctype(form) }} >
+
+                {{ form_row(form.Localidad)}}
+            <div id= "zona">
+
+                {{ form_row(form.Zona)}}    
+            </div>
+            <div id="calle">
+
+                {{form_row(form.Calle)}}
+            </div>
+            <div id="altura">
+                {{form_row(form.Altura)}}
+            </div>
+            <div id="piso">
+                {{form_row(form.Piso)}}
+            </div>
+            <div id="departamento">
+                {{form_row(form.Departamento)}}
+            </div>
+            <div id="nombre">
+                {{form_row(form.Nombre)}}
+            </div>
+
+            <input type="submit" value="Agregar Direcci&oacute;n" />
+
+        </form>
+    </div>{# empty Twig template #}
+    <a class="close-reveal-modal">&#215;</a>
+{% endblock %}
+
+ {% block javascripts %}
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                
+                $("#direccion_Localidad").change(function() {//evento on click
+
+                    var id = $(this).val();
+                    //console.log(id);
+                    var url = "{{ path('TodoCerdoTodoCerdoBundle_obtenerBarrios') }}";
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        data: "id=" + id, //concateno dos string
+                        success: function(data) {
+                            //agregar validacion del success en caso que no retorne bien la descripcion
+
+                            //aca le tengo que decir que cambie el contenido del select
+                            $("#zona").html(data);
+                        }
+                    });//make sure the the response is in json format
+
+                    //we dont what the browser to submit the form
+                    return false;
+                });
+            });
+    </script>
+
+{% endblock %}

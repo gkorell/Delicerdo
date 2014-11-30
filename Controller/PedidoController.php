@@ -42,25 +42,7 @@ class PedidoController extends Controller {
         }
 
         $direccion = new Direccion();
-
-
-        
-
-        $request = $this->getRequest();
-
-        //aca persisto la direccion
-        if ($request->getMethod() == "POST") {
-            $form = $this->createForm(new DireccionType(), $direccion);
-            
-            $direccion->setUsuario($ObjUsuario); 
-            $form->bind($request);
-
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($direccion);
-                $em->flush();
-            }
-        }
+                
         //primero buscar las direcciones del usuario
         $direccion = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion')->findByUsuario($idUsuario);
         $localidad = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
@@ -70,6 +52,55 @@ class PedidoController extends Controller {
 
         return $this->render('TodoCerdoTodoCerdoBundle:Pedido:darUbicacion.html.twig', array(
                     'form' => $form->createView(), 'direccion' => $direccion, 'localidad' => $localidad, 'usuario' => $idUsuario));
+    }
+    
+    
+    
+    public function agregarDireccionAction($idUsuario){
+        
+        $ObjUsuario = null;
+        if ($idUsuario == 0) {
+
+            $usuario = $this->get('security.context')->getToken()->getUser()->getUsername();
+            $ObjUsuario = $this->getDoctrine()
+                    ->getRepository('TodoCerdoTodoCerdoBundle:Usuario')
+                    ->findOneByUsername($usuario);
+            if ($ObjUsuario) {
+                $idUsuario = $ObjUsuario->getId();
+            }
+        }
+
+        $direccion = new Direccion();
+        
+        $request = $this->getRequest();
+
+        //aca persisto la direccion
+        if ($request->getMethod() == "POST") {
+            $form = $this->createForm(new DireccionType(), $direccion);
+            
+            $direccion->setUsuario($ObjUsuario); 
+            $form->bind($request); //cambiar por handle
+            
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($direccion);
+                $em->flush();
+            }
+            
+            
+        }
+        
+        //primero buscar las direcciones del usuario
+        $direccion = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion')->findByUsuario($idUsuario);
+        $localidad = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
+        //aca tengo que cargar el campo select
+
+        $form = $this->createForm(new DireccionType(), $direccion[0]);
+        
+        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:agregarDireccion.html.twig', array(
+                    'form' => $form->createView(), 'direccion' => $direccion, 'localidad' => $localidad, 'usuario' => $idUsuario));
+        
     }
 
     public function obtenerBarriosAction() {
@@ -186,7 +217,6 @@ class PedidoController extends Controller {
         
     }
 
-
     
     public function detalleCarritoAction(){
         $session = $this->getRequest()->getSession();
@@ -211,7 +241,7 @@ class PedidoController extends Controller {
         
         $session->set("direccionEnvio", $direccion);
         
-        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarritoAjax.html.twig');
+        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:confirmarPedido.html.twig');
     }        
 
     

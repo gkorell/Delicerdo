@@ -5,37 +5,22 @@
 
 {% block title %}darUbicacion{% endblock%}
 
+{% block stylesheets %}
+{{ parent() }}
+
+    {% stylesheets 'bundles/todocerdotodocerdo/css/reveal.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+{% endblock %}
+
 {% block body %}
 
 
 <header>
     <h2>Dar Ubicaci&oacute;n</h2>
 </header>
-
 <div>
-    {#Cargo formulario "DireccionType.php". #}
-        <form class="blogger" 
-              action="{{ path('TodoCerdoTodoCerdoBundle_darUbicacion') }}" 
-              method="post" {{ form_enctype(form) }} >
-
-                {{ form_row(form.Localidad)}}
-            <div id= "zona">
-
-                {{ form_row(form.Zona)}}    
-            </div>
-            <div id="calle">
-
-                {{form_row(form.Calle)}}
-            </div>
-                {{form_rest(form)}}
-
-            <input type="submit" value="Agregar Direcci&oacute;n" />
-
-        </form>
-    {#Boton Continuar #}
-        <input id="continuar" type="button" value="Continuar con el pedido."/>
-    </div>   
-    <div>
         <label class=" required" for="direccion">Direccion</label>
 
         <select id="direccion" required="required" name="direccion">
@@ -49,10 +34,45 @@
 
 {%endfor%}
 
-            </select>
+            </select> <input id="agregar" class="modal_desc" type="button" value="Agregar direcci&oacute;n"/>
 
 
         </div>
+<div>
+    {#Cargo formulario "DireccionType.php". #}
+        <form class="blogger" 
+              action="{{ path('TodoCerdoTodoCerdoBundle_continuarPedido') }}" 
+              method="post" {{ form_enctype(form) }} >
+
+                {{ form_row(form.Localidad, { 'attr': { 'disabled': 'true' } })}}
+            <div id= "zona">
+
+                {{ form_row(form.Zona, { 'attr': { 'disabled': 'true' } })}}    
+            </div>
+            <div id="calle">
+
+                {{form_row(form.Calle, { 'attr': { 'readonly': 'true' } })}}
+            </div>
+            <div id="altura">
+                {{form_row(form.Altura,{ 'attr': { 'readonly': 'true' } })}}
+            </div>
+            <div id="piso">
+                {{form_row(form.Piso,{ 'attr': { 'readonly': 'true' } })}}
+            </div>
+            <div id="departamento">
+                {{form_row(form.Departamento,{ 'attr': { 'readonly': 'true' } })}}
+            </div>
+            <div id="nombre">
+                {{form_row(form.Nombre,{ 'attr': { 'readonly': 'true' } })}}
+            </div>
+
+            <input type="submit" value="Continuar con el Pedido" />
+
+        </form>
+    </div>   
+            
+    <div id="myModal" class="reveal-modal"></div>
+    
 {% endblock %}
 
  {% block javascripts %}
@@ -62,20 +82,24 @@
 
             $(document).ready(function() {
                 
-                $("#continuar").click(function() { //evento click del boton continuar pedido
-                    var direccion = $('.blogger').serialize();
-                    var urlDireccion = "{{path('TodoCerdoTodoCerdoBundle_continuarPedido')}}";
+               $("#agregar").click(function() { //evento click del boton continuar pedido
+                    //var id = $(this).attr("name");
+                    var url = "{{ path('TodoCerdoTodoCerdoBundle_agregarDireccion') }}";
+            
                     $.ajax({
-                        type: "GET",
-                        url: urlDireccion,
-                        data: "direccion=" + direccion,
-                        success: function(data) {
-                            console.log(data);
+                        type:"GET",
+                        url:url,
+                        //data:"id="+id,//concateno dos string
+                        success: function(data){
+                            //agregar validacion del success en caso que no retorne bien la descripcion
+                          $("#myModal").html(data);//myModal es un elemento html con ese id
+                          $('#myModal').reveal();//reveal es un metodo de una clase de ventanas modales
                         },
                         error: function(data) {
                             alert("ERROR");
-                        }
-                    });
+                        }        
+                    });//make sure the the response is in json format
+
                     
                 });
                 
@@ -121,7 +145,10 @@
                     //we dont what the browser to submit the form
                     return false;
                 });
-
+                
+                
+           
+                
             });
 
             </script>

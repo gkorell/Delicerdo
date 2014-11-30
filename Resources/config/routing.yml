@@ -78,6 +78,11 @@ TodoCerdoTodoCerdoBundle_obtenerDireccion:
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:obtenerDireccion }
     requirements: { _method: GET}
     
+TodoCerdoTodoCerdoBundle_agregarDireccion:
+    pattern:  /agregarDireccion/{idUsuario}
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:agregarDireccion, idUsuario: 0 }
+    requirements: { _method: GET|POST}
+    
 TodoCerdoTodoCerdoBundle_detalleCarrito:
     pattern:  /detalleCarrito
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:detalleCarrito }
@@ -86,7 +91,7 @@ TodoCerdoTodoCerdoBundle_detalleCarrito:
 TodoCerdoTodoCerdoBundle_continuarPedido:
     pattern:  /continuarPedido
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:continuarPedido}
-    requirements: { _method: GET}
+    requirements: { _method: POST}
 
 receta:
     pattern:  /receta
