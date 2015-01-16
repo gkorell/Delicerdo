@@ -20,6 +20,7 @@
 <header>
     <h2>Dar Ubicaci&oacute;n</h2>
 </header>
+<div id="todo">
 <div>
         <label class=" required" for="direccion">Direccion</label>
 
@@ -37,41 +38,40 @@
             </select> <input id="agregar" class="modal_desc" type="button" value="Agregar direcci&oacute;n"/>
 
 
-        </div>
+</div>
 <div>
     {#Cargo formulario "DireccionType.php". #}
-        <form class="blogger" 
+        <form class="blogger" id="form_dar_ubicacion"
               action="{{ path('TodoCerdoTodoCerdoBundle_continuarPedido') }}" 
               method="post" {{ form_enctype(form) }} >
 
-                {{ form_row(form.Localidad, { 'attr': { 'disabled': 'true' } })}}
-            <div id= "zona">
+                {{ form_row(form.Localidad)}}
+            
 
-                {{ form_row(form.Zona, { 'attr': { 'disabled': 'true' } })}}    
-            </div>
-            <div id="calle">
-
+                {{ form_row(form.Zona)}}
+                
+           
                 {{form_row(form.Calle, { 'attr': { 'readonly': 'true' } })}}
-            </div>
-            <div id="altura">
+            
+            
                 {{form_row(form.Altura,{ 'attr': { 'readonly': 'true' } })}}
-            </div>
-            <div id="piso">
+            
+            
                 {{form_row(form.Piso,{ 'attr': { 'readonly': 'true' } })}}
-            </div>
-            <div id="departamento">
+            
+            
                 {{form_row(form.Departamento,{ 'attr': { 'readonly': 'true' } })}}
-            </div>
-            <div id="nombre">
+            
+            
                 {{form_row(form.Nombre,{ 'attr': { 'readonly': 'true' } })}}
-            </div>
+           
 
             <input type="submit" value="Continuar con el Pedido" />
-
+            {{ form_rest(form) }}
         </form>
     </div>   
-            
-    <div id="myModal" class="reveal-modal"></div>
+</div>            
+    <div id="myModal" class="reveal-modal" style="margin-left: 0px; width: 625px;"></div>
     
 {% endblock %}
 
@@ -124,7 +124,7 @@
                     });
                 });
                 
-                $("#direccion_Localidad").change(function() {//evento on click
+                $("#myModal").on("change","#direccion_Localidad",function() {//evento on click
 
                     var id = $(this).val();
                     //console.log(id);
@@ -145,8 +145,6 @@
                     //we dont what the browser to submit the form
                     return false;
                 });
-                
-                
            
                 
             });

@@ -11,8 +11,8 @@
 </header>
 <div>
     {#Cargo formulario "DireccionType.php". #}
-        <form class="blogger" 
-              action="{{ path('TodoCerdoTodoCerdoBundle_agregarDireccion') }}" 
+        <form class="blogger" id="form_agregar_direccion"
+              action="{{ path('TodoCerdoTodoCerdoBundle_agregarDirAjax') }}" 
               method="post" {{ form_enctype(form) }} >
 
                 {{ form_row(form.Localidad)}}
@@ -38,39 +38,9 @@
             </div>
 
             <input type="submit" value="Agregar Direcci&oacute;n" />
-
+            {{ form_rest(form) }}
         </form>
     </div>{# empty Twig template #}
     <a class="close-reveal-modal">&#215;</a>
 {% endblock %}
 
- {% block javascripts %}
-
-        <script type="text/javascript">
-            $(document).ready(function() {
-                
-                $("#direccion_Localidad").change(function() {//evento on click
-
-                    var id = $(this).val();
-                    //console.log(id);
-                    var url = "{{ path('TodoCerdoTodoCerdoBundle_obtenerBarrios') }}";
-
-                    $.ajax({
-                        type: "GET",
-                        url: url,
-                        data: "id=" + id, //concateno dos string
-                        success: function(data) {
-                            //agregar validacion del success en caso que no retorne bien la descripcion
-
-                            //aca le tengo que decir que cambie el contenido del select
-                            $("#zona").html(data);
-                        }
-                    });//make sure the the response is in json format
-
-                    //we dont what the browser to submit the form
-                    return false;
-                });
-            });
-    </script>
-
-{% endblock %}

@@ -5,10 +5,68 @@
 
 {% block title %}Confirmar Pedido{% endblock%}
 
+{% block stylesheets %}
+{{ parent() }}
+
+    {% stylesheets 'bundles/todocerdotodocerdo/css/reveal.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+{% endblock %}
+
 {% block body %}
-    
     <header>
     <h2>Confirmar Pedido</h2>
     </header>
     
+    <div>
+    {#Cargo formulario "DireccionType.php". #}
+        <form class="blogger" id="form_dar_ubicacion"
+              action="{{ path('TodoCerdoTodoCerdoBundle_finalizarPedido') }}" 
+              method="post" {{ form_enctype(form) }} >
+
+                {{ form_row(form.fechaEntrega) }}
+            
+
+                {{ form_row(form.horarioTentativo)}}
+                
+           
+                {{form_row(form.confirmarPrecio)}}
+            
+            
+                {{form_row(form.medioConfirmacion)}}
+            
+            
+                {{form_row(form.pagaCon)}}
+                
+                
+                            
+                {{ form_rest(form) }}
+        </form>
+    </div>   
 {% endblock %}
+
+
+{% block javascripts %}
+
+     {{ parent() }}
+        <script type="text/javascript">
+
+            $(document).ready(function(){
+                
+                $('#confirmarPedido_confirmaPrecio').click(function() {
+                
+                    if( $('#confirmarPedido_confirmaPrecio').is(':checked')) {
+                        $('#confirmarPedido_modoConfirma').removeAttr("disabled");
+                        
+                    }else{
+                        $('#confirmarPedido_modoConfirma').attr("disabled", "disabled");
+                        
+                    }
+                });
+                
+            });
+
+            </script>
+            
+{% endblock %}            

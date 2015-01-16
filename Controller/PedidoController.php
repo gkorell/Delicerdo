@@ -12,11 +12,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use TodoCerdo\TodoCerdoBundle\Form\DireccionType;
+use TodoCerdo\TodoCerdoBundle\Form\PedidoType;
 use TodoCerdo\TodoCerdoBundle\Entity\Direccion;
 use TodoCerdo\TodoCerdoBundle\Entity\Zona;
 use TodoCerdo\TodoCerdoBundle\Entity\Producto;
 use TodoCerdo\TodoCerdoBundle\Entity\Detalle;
 use TodoCerdo\TodoCerdoBundle\Entity\Localidad;
+use TodoCerdo\TodoCerdoBundle\Entity\Pedido;
+use TodoCerdo\TodoCerdoBundle\Entity\Estado;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -24,119 +27,6 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class PedidoController extends Controller {
     
-
-    public function darUbicacionAction($idUsuario) {
-        // El idUsuario trae el idUsuario o puede traer en caso de que no este 
-        // un valor null = 0.
-        //recupero el idUsuario en el caso del valor null.
-        $ObjUsuario = null;
-        if ($idUsuario == 0) {
-
-            $usuario = $this->get('security.context')->getToken()->getUser()->getUsername();
-            $ObjUsuario = $this->getDoctrine()
-                    ->getRepository('TodoCerdoTodoCerdoBundle:Usuario')
-                    ->findOneByUsername($usuario);
-            if ($ObjUsuario) {
-                $idUsuario = $ObjUsuario->getId();
-            }
-        }
-
-        $direccion = new Direccion();
-                
-        //primero buscar las direcciones del usuario
-        $direccion = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion')->findByUsuario($idUsuario);
-        $localidad = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
-        //aca tengo que cargar el campo select
-
-        $form = $this->createForm(new DireccionType(), $direccion[0]);
-
-        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:darUbicacion.html.twig', array(
-                    'form' => $form->createView(), 'direccion' => $direccion, 'localidad' => $localidad, 'usuario' => $idUsuario));
-    }
-    
-    
-    
-    public function agregarDireccionAction($idUsuario){
-        
-        $ObjUsuario = null;
-        if ($idUsuario == 0) {
-
-            $usuario = $this->get('security.context')->getToken()->getUser()->getUsername();
-            $ObjUsuario = $this->getDoctrine()
-                    ->getRepository('TodoCerdoTodoCerdoBundle:Usuario')
-                    ->findOneByUsername($usuario);
-            if ($ObjUsuario) {
-                $idUsuario = $ObjUsuario->getId();
-            }
-        }
-
-        $direccion = new Direccion();
-        
-        $request = $this->getRequest();
-
-        //aca persisto la direccion
-        if ($request->getMethod() == "POST") {
-            $form = $this->createForm(new DireccionType(), $direccion);
-            
-            $direccion->setUsuario($ObjUsuario); 
-            $form->bind($request); //cambiar por handle
-            
-
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($direccion);
-                $em->flush();
-            }
-            
-            
-        }
-        
-        //primero buscar las direcciones del usuario
-        $direccion = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion')->findByUsuario($idUsuario);
-        $localidad = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
-        //aca tengo que cargar el campo select
-
-        $form = $this->createForm(new DireccionType(), $direccion[0]);
-        
-        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:agregarDireccion.html.twig', array(
-                    'form' => $form->createView(), 'direccion' => $direccion, 'localidad' => $localidad, 'usuario' => $idUsuario));
-        
-    }
-
-    public function obtenerBarriosAction() {
-
-        $id = $this->getRequest()->get("id"); //obtiene el id del request
-
-        $em = $this->getDoctrine()->getManager();
-        //este no le gusta
-        $zonas = $em->getRepository('TodoCerdoTodoCerdoBundle:Zona')
-                ->findByLocalidad($id); //devuelve las zonas  por id
-
-
-        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:selectBarrios.html.twig', array('zonas' => $zonas));
-    }
-
-    public function obtenerDireccionAction() {
-        //$encoders = array('xml' => new XmlEncoder(), 'json' => new JsonEncoder());
-        //$normalizers = array(new GetSetMethodNormalizer());
-        //$serializer = new Serializer($normalizers, $encoders);
-
-        $id = $this->getRequest()->get("idDireccion"); //obtiene el id del request
-        $repositorio = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion');
-        $direccion = $repositorio->findOneById($id);
-
-        $localidadId = $direccion->getLocalidad()->getId();
-        $zonaId = $direccion->getZona()->getId();
-        //$jsonDireccion = $serializer->serialize($direccion, 'json');
-
-        $localidades = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
-        $zonas = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Zona')->findByLocalidad($localidadId);
-        //return new Response($jsonDireccion); 
-        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:inputCalle.html.twig', array('direccion' => $direccion, 'localidadId' => $localidadId, 'zonaId' => $zonaId, 'localidades' => $localidades,
-                    'zonas' => $zonas));
-    }
-    
-
     public function addDetalleAction() {
         //agrega un detalle al carrito, si no existe lo crea.
         $session = $this->getRequest()->getSession();
@@ -189,7 +79,10 @@ class PedidoController extends Controller {
                       'precioTotal' => $precioTotal
                    ));
     }
+    
+    
     public function eliminarDetalleAction(){
+        
         $session = $this->getRequest()->getSession();
         $carrito = $session->get('carrito');
         $elemento = $this->getRequest()->get("elemento");
@@ -212,12 +105,10 @@ class PedidoController extends Controller {
         return $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarritoAjax.html.twig', 
                 array('carrito'=> $carrito,
                       'precioTotal'=>$precioTotal));
-          
-       
-        
+           
     }
 
-    
+    //va a ver el carrito con el listado de los productos seleccionados para compra
     public function detalleCarritoAction(){
         $session = $this->getRequest()->getSession();
         $carrito = $session->get('carrito');
@@ -230,6 +121,163 @@ class PedidoController extends Controller {
                 array('carrito'=> $carrito,
                       'precioTotal'=>$precioTotal));
     }
+
+    public function darUbicacionAction($idUsuario) {
+        // El idUsuario trae el idUsuario o puede traer en caso de que no este 
+        // un valor null = 0.
+        //recupero el idUsuario en el caso del valor null.
+        $ObjUsuario = null;
+        if ($idUsuario == 0) {
+
+            $usuario = $this->get('security.context')->getToken()->getUser()->getUsername();
+            $ObjUsuario = $this->getDoctrine()
+                    ->getRepository('TodoCerdoTodoCerdoBundle:Usuario')
+                    ->findOneByUsername($usuario);
+            if ($ObjUsuario) {
+                $idUsuario = $ObjUsuario->getId();
+            }
+        }
+
+        $direccion = new Direccion();
+                
+        //primero buscar las direcciones del usuario
+        $direccion = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion')->findByUsuario($idUsuario);
+        $localidad = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
+        //aca tengo que cargar el campo select
+
+        $form = $this->createForm(new DireccionType(), $direccion[0]);
+
+        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:darUbicacion.html.twig', array(
+                    'form' => $form->createView(), 'direccion' => $direccion, 'localidad' => $localidad, 'usuario' => $idUsuario));
+    }
+    
+    
+    //carga la vista inicial del formulario de alta de direccion
+    public function agregarDireccionAction($idUsuario){
+        
+        $ObjUsuario = null;
+        if ($idUsuario == 0) {
+
+            $usuario = $this->get('security.context')->getToken()->getUser()->getUsername();
+            $ObjUsuario = $this->getDoctrine()
+                    ->getRepository('TodoCerdoTodoCerdoBundle:Usuario')
+                    ->findOneByUsername($usuario);
+            if ($ObjUsuario) {
+                $idUsuario = $ObjUsuario->getId();
+            }
+        }
+
+        $direccion = new Direccion();
+        
+          
+        //cargo el arreglo de localidades para el select
+        $localidad = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
+        //aca tengo que cargar el campo select
+
+        $form = $this->createForm(new DireccionType());
+        
+        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:agregarDireccion.html.twig', array(
+                    'form' => $form->createView(), 'direccion' => $direccion, 'localidad' => $localidad, 'usuario' => $idUsuario));
+        
+    }
+    
+    
+    //persiste la direccion y devuelve las partes de la vista para actualizar por ajax
+    public function agregarDirAjaxAction($idUsuario){
+        
+        $request = $this->getRequest();
+
+        $ObjUsuario = null;
+        if ($idUsuario == 0) {
+
+            $usuario = $this->get('security.context')->getToken()->getUser()->getUsername();
+            $ObjUsuario = $this->getDoctrine()
+                    ->getRepository('TodoCerdoTodoCerdoBundle:Usuario')
+                    ->findOneByUsername($usuario);
+            if ($ObjUsuario) {
+                $idUsuario = $ObjUsuario->getId();
+            }
+        }
+        
+         $direccion = new Direccion();
+         
+        //aca persisto la direccion
+        if ($request->getMethod() == "POST") {
+            $form = $this->createForm(new DireccionType(), $direccion);
+            
+            $direccion->setUsuario($ObjUsuario); 
+            $form->bind($request); //cambiar por handle
+            
+            $esvalido = $form->isValid();
+            if ($esvalido) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($direccion);
+                $em->flush();
+                $id=$direccion->getId();
+            }
+        }
+        
+        $direcciones = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion')->findByUsuario($idUsuario);
+        $arreglo_form = $this->actualizaFormDireccion($id);
+        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:darUbicacionAjax.html.twig',$direcciones, $arreglo_form);
+        
+    }
+    
+ 
+
+    public function obtenerBarriosAction() {
+
+        $id = $this->getRequest()->get("id"); //obtiene el id del request
+
+        $em = $this->getDoctrine()->getManager();
+        //este no le gusta
+        $zonas = $em->getRepository('TodoCerdoTodoCerdoBundle:Zona')
+                ->findByLocalidad($id); //devuelve las zonas  por id
+
+
+        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:selectBarrios.html.twig', array('zonas' => $zonas));
+    }
+    
+    
+     private function actualizaFormDireccion($id){
+        
+        $repositorio = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion');
+        $direccion = $repositorio->findOneById($id);
+
+        $localidadId = $direccion->getLocalidad()->getId();
+        $zonaId = $direccion->getZona()->getId();
+        //$jsonDireccion = $serializer->serialize($direccion, 'json');
+
+        $localidades = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
+        $zonas = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Zona')->findByLocalidad($localidadId);
+        
+        $arreglo=array('direccion' => $direccion, 'localidadId' => $localidadId, 'zonaId' => $zonaId, 'localidades' => $localidades,'zonas' => $zonas);
+        
+        return $arreglo;
+    }
+
+    public function obtenerDireccionAction() {
+        //$encoders = array('xml' => new XmlEncoder(), 'json' => new JsonEncoder());
+        //$normalizers = array(new GetSetMethodNormalizer());
+        //$serializer = new Serializer($normalizers, $encoders);
+
+        $id = $this->getRequest()->get("idDireccion"); //obtiene el id del request
+        
+        $arreglo = $this->actualizaFormDireccion($id);
+               
+        //$repositorio = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion');
+        //$direccion = $repositorio->findOneById($id);
+
+        //$localidadId = $direccion->getLocalidad()->getId();
+        //$zonaId = $direccion->getZona()->getId();
+        //$jsonDireccion = $serializer->serialize($direccion, 'json');
+
+        //$localidades = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
+        //$zonas = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Zona')->findByLocalidad($localidadId);
+        //return new Response($jsonDireccion); 
+        //return $this->render('TodoCerdoTodoCerdoBundle:Pedido:inputCalle.html.twig', array('direccion' => $direccion, 'localidadId' => $localidadId, 'zonaId' => $zonaId, 'localidades' => $localidades, 'zonas' => $zonas));
+        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:inputCalle.html.twig', $arreglo);
+    }
     
     
     public function continuarPedidoAction(){
@@ -237,14 +285,138 @@ class PedidoController extends Controller {
         
         $session = $this->getRequest()->getSession();
         
+        $direccion = new Direccion();
+        
         $direccion = $this->getRequest()->get("direccion");
         
         $session->set("direccionEnvio", $direccion);
         
-        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:confirmarPedido.html.twig');
-    }        
+        $form = $this->createForm(new PedidoType());
+        
+        
+        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:confirmarPedido.html.twig', array('form' => $form->createView()));
+        
+    }
+    
+    
+    public function finalizarPedidoAction(){
+        
+        //Obtengo el usuario
+        $usuario = $this->get('security.context')->getToken()->getUser()->getUsername();
+        $ObjUsuario = $this->getDoctrine()
+            ->getRepository('TodoCerdoTodoCerdoBundle:Usuario')
+            ->findOneByUsername($usuario);
+        
+        $pedido = new Pedido();
+        $request = $this->getRequest();
+        
+        if ($request->getMethod() == "POST") {
+                        
+            //Obtengo la direccion seleccionada desde la base de datos
+            $session = $this->getRequest()->getSession();
+            $direccion = $session->get('direccionEnvio');
+            $direccionEnvio = new Direccion();
+            $direccionEnvio = $this->getDoctrine()
+            ->getRepository('TodoCerdoTodoCerdoBundle:Direccion')
+            ->findOneByNombre($direccion['Nombre']);
+            
+            //Obtengo el objeto estado
+            $estado = new Estado();
+            $estado = $this->getDoctrine()
+            ->getRepository('TodoCerdoTodoCerdoBundle:Estado')
+            ->findOneByNombre('Nuevo');
+            
+                      
+            $form = $this->createForm(new PedidoType(),$pedido);
+            $form->handleRequest($request);
+            
+            $pedido->setUsuario($ObjUsuario);
+            $pedido->setDireccion($direccionEnvio);
+            $pedido->setEstado($estado);
+            
+            $fecha = new \DateTime();
+            
+            $pedido->setFecha($fecha);
+            //lleno el objeto pedido con los datos del form a mano porque no se como se hace
+            //$pedido->setFechaEntrega( $form->get('fechaEntrega'));
+            //$pedido->setHorarioTentativo($form->get('horarioTentativo'));
+            //$pedido->setMedioConfirmacion($form->get('modoConfirma'));
+            //$pedido->setPagaCon($form->get('pagaCon'));
+            
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->getConnection()->beginTransaction();
+            $idPedido=null;
+            $enviado = 'NO';
+            
+            try{
+                
+                $esvalido = $form->isValid();
+                if ($esvalido) {
+
+                    $em->persist($pedido);
+                    $em->flush();
+                    $idPedido=$pedido->getId();
+                }
+
+                if($idPedido!=null){
+
+                    $carrito = $session->get('carrito');
+                    $cant = $session->get('cantidadTotal');
+
+
+                    for($i=0;$i<$cant;$i++){
+
+                        $detalle = new Detalle();
+                        $producto = new Producto();
+                        $idproducto = $carrito[$i]->getProducto()->getId();
+                        
+                        $producto = $em->getRepository('TodoCerdoTodoCerdoBundle:Producto')->find($idproducto);
+                        
+                        $cantidad = $carrito[$i]->getCantidad();
+                        
+                        //$detalle = $carrito[$i];
+                        //Hacer el find de cada uno de los objetos de carrito
+                        //VER: http://stackoverflow.com/questions/19273870/doctrine2-a-new-entity-was-found-through-the-relationship
+                        //VER: http://stackoverflow.com/questions/18215975/doctrine-a-new-entity-was-found-through-the-relationship
+                        
+                        $detalle->setProducto($producto);
+                        $detalle->setCantidad($cantidad);
+                        $detalle->setPedido($pedido);
+                        $em->persist($detalle);
+
+
+                    }
+
+                    $em->flush();
+                    $em->getConnection()->commit();
+                    $enviado = 'OK';
+
+                }
+                
+                
+                
+                
+            } catch (Exception $ex) {
+                $em->getConnection()->rollback();
+                $enviado = 'NO';
+                throw $ex;
+            }
+            
+        }//end if post
+        
+        if($enviado == 'OK'){
+            $mensage = "Su pedido ha sido procesado con &eacute;xito";
+        }else{
+            $mensage = "Ocurri&oacute; un error al procesar el pedido. Por favor intente nuevamente";
+        }
+        
+        Return $this->render('TodoCerdoTodoCerdoBundle:Pedido:pedidoFinalizado.html.twig',array('mensaje'=>$mensage));
+        
+    }//end action
 
     
-}
+    
+}//end controller
 
 ?>

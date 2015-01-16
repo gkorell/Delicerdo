@@ -1,0 +1,31 @@
+{# finalizar pedido: Pedido #}
+{# src/TodoCerdo/TodoCerdoBundle/Resources/views/Pedido/perdidoFinalizado.html.twig #}
+
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block title %}Pedido Finalizado{% endblock%}
+
+{% block stylesheets %}
+{{ parent() }}
+
+    {% stylesheets 'bundles/todocerdotodocerdo/css/reveal.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+{% endblock %}
+
+{% block body %}
+    <header>
+    <h2>Pedido Finalizado</h2>
+    </header>
+    
+    <div>
+        <center><h4>{{mensage}}</h4></center>
+{% endblock %}
+
+    
+{% block javascripts %}
+
+     {{ parent() }}
+     
+{% endblock %}

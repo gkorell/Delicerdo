@@ -96,11 +96,6 @@ class Pedido
      */
     protected $direccion;
 
-
-
-
-
-
     /**
      * Get id
      *

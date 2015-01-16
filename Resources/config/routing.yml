@@ -67,7 +67,7 @@ TodoCerdoTodoCerdoBundle_darUbicacion:
     pattern:  /darUbicacion/{idUsuario}
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:darUbicacion, idUsuario: 0 }
     requirements: { _method: GET|POST}
-   
+    
 TodoCerdoTodoCerdoBundle_obtenerBarrios:
     pattern:  /obtenerBarrios
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:obtenerBarrios }
@@ -83,14 +83,24 @@ TodoCerdoTodoCerdoBundle_agregarDireccion:
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:agregarDireccion, idUsuario: 0 }
     requirements: { _method: GET|POST}
     
+TodoCerdoTodoCerdoBundle_agregarDirAjax:
+    pattern:  /agregarDir/{idUsuario}
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:agregarDirAjax, idUsuario: 0 }
+    requirements: { _method: GET|POST}
+    
 TodoCerdoTodoCerdoBundle_detalleCarrito:
     pattern:  /detalleCarrito
-    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:detalleCarrito }
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:detalleCarrito}
     requirements: { _method: GET}
     
 TodoCerdoTodoCerdoBundle_continuarPedido:
     pattern:  /continuarPedido
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:continuarPedido}
+    requirements: { _method: POST}
+    
+TodoCerdoTodoCerdoBundle_finalizarPedido:
+    pattern:  /finalizarPedido
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:finalizarPedido}
     requirements: { _method: POST}
 
 receta:
