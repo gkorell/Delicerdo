@@ -28,7 +28,7 @@ TodoCerdoTodoCerdoBundle_newproducto:
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Producto:new }
 
 TodoCerdoTodoCerdoBundle_productos:
-    pattern:  /producto
+    pattern:  /producto/
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Producto:index }
     
 TodoCerdoTodoCerdoBundle_listproductos:
@@ -103,8 +103,13 @@ TodoCerdoTodoCerdoBundle_finalizarPedido:
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:finalizarPedido}
     requirements: { _method: POST}
 
+TodoCerdoTodoCerdoBundle_listarPedidos:
+    pattern: /listarPedidos/
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:listarPedidos}
+    requirements: {_method: GET|POST}
+
 receta:
-    pattern:  /receta
+    pattern:  /receta/
     defaults: { _controller: "TodoCerdoTodoCerdoBundle:Receta:index" }
 
 receta_show:

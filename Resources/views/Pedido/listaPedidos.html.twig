@@ -1,0 +1,82 @@
+{# empty Twig template #}
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+
+{% block title %}Lista de Pedidos{% endblock%}
+
+
+{% block body %}
+    
+    <div id="cuerpo">
+            <h1>Pedido - Listado y busqueda de pedidos</h1>
+            <p>Realice la bbusqueda de los pedidos seg&uacute;n los criterios disponibles a continuaci&oacute;n:</p>
+            
+            <div class="count">
+            {{ pagination.getTotalItemCount }}
+            </div>
+            <table>  
+                <tr>
+                {# sorting of properties based on query components #}
+                <th>{{ knp_pagination_sortable(pagination, 'Id', 'p.id') }}</th>
+                <th{% if pagination.isSorted('p.fechaEntrega') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination,'Fecha de Entrega','p.fechaEntrega')}}</th>
+                <th>Horario</th>
+                <th>Direccion</th>
+                <th>Estado</th>
+                </tr>
+                {% for pedido in pagination %}
+                    
+                    <tr>
+                         <td>{{ pedido.id }}</td>
+                         <td>{{ pedido.fechaEntrega|date("m/d/Y") }}</td>
+                         <td>{{ pedido.horarioTentativo }}</td>
+                         <td>{{ pedido.direccion.Localidad~" "~pedido.direccion.Calle~" "~pedido.direccion.altura}}</td>
+                         <td>{{ pedido.estado }}</td>
+                         <td><a href="#" id="ver_pedido" name="{{pedido.id}}">Ver Pedido</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+          
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+            
+            
+    </div>
+    
+{%endblock%}
+
+
+
+{% block javascripts %}
+
+     {{ parent() }}
+        <script type="text/javascript">
+
+            $(document).ready(function(){
+               
+               $('#editar_pedido').on('click', function(){
+                   
+                   var url = "{{ path('TodoCerdoTodoCerdoBundle_editarPedido') }}";
+                   var id = $(this).attr("name");
+                   
+                    $.ajax({
+                        type:"GET",
+                        url:url,
+                        data:"id="+id,//concateno dos string
+                        success: function(data){
+                            //agregar validacion del success en caso que no retorne bien la descripcion
+                          //$("#myModal").html(data);//myModal es un elemento html con ese id
+                          //$('#myModal').reveal();//reveal es un metodo de una clase de ventanas modales
+                        },
+                        error: function(data) {
+                            alert("ERROR");
+                        }        
+                    });//make sure the the response is in json format
+                   
+                   
+               });
+               
+            });
+            
+        </script>
+        
+ {% endblock %}   

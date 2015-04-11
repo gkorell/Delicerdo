@@ -375,11 +375,6 @@ class PedidoController extends Controller {
                         
                         $cantidad = $carrito[$i]->getCantidad();
                         
-                        //$detalle = $carrito[$i];
-                        //Hacer el find de cada uno de los objetos de carrito
-                        //VER: http://stackoverflow.com/questions/19273870/doctrine2-a-new-entity-was-found-through-the-relationship
-                        //VER: http://stackoverflow.com/questions/18215975/doctrine-a-new-entity-was-found-through-the-relationship
-                        
                         $detalle->setProducto($producto);
                         $detalle->setCantidad($cantidad);
                         $detalle->setPedido($pedido);
@@ -407,15 +402,64 @@ class PedidoController extends Controller {
         
         if($enviado == 'OK'){
             $mensage = "Su pedido ha sido procesado con &eacute;xito";
+            $session->remove($carrito);
+            $session->remove($cantidadTotal);
+            $session->remove($direccionEnvio);
+            $session->remove($precioTotal);
+            
         }else{
             $mensage = "Ocurri&oacute; un error al procesar el pedido. Por favor intente nuevamente";
         }
         
-        Return $this->render('TodoCerdoTodoCerdoBundle:Pedido:pedidoFinalizado.html.twig',array('mensaje'=>$mensage));
+        Return $this->render('TodoCerdoTodoCerdoBundle:Pedido:pedidoFinalizado.html.twig',array('mensaje'=>$mensaje));
         
     }//end action
+    
+    
+    public function listarPedidosAction(){
+        
+        $request = $this->getRequest();
+        $orden=null;
+        $direction=null;
+        
+        if ($request->getMethod() == "GET") {
+            $orden=$request->get('sort');
+            $direction=$request->get('direction');
+            
+        }
+            
+        if($orden==null){
+            $orden='p.id';
+        }
+            
+        if($direction==null){
+            $direction='ASC';
+        }
+        
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $dql = 'SELECT p, e FROM TodoCerdoTodoCerdoBundle:Pedido p JOIN p.estado e WHERE e.id=:id ORDER BY '.$orden.' '.$direction.'';
+        $query = $em->createQuery($dql)->setParameter('id', 1); //parametro de estado
+        
+        //$query = $em->createQuery('SELECT p, e FROM TodoCerdoTodoCerdoBundle:Pedido p JOIN p.estado e WHERE e.id=:id ORDER BY p.fecha DESC')->setParameter('id', 1);
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+        $query,
+        $this->getRequest()->query->get('page', 1), 5);
+        
+
+    return $this->render(
+        'TodoCerdoTodoCerdoBundle:Pedido:listaPedidos.html.twig', compact('pagination'));
+    }
 
     
+    
+    public function editarPedidoAction(){
+     
+        
+        
+    }
     
 }//end controller
 

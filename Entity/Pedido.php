@@ -4,6 +4,7 @@ namespace TodoCerdo\TodoCerdoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use TodoCerdo\TodoCerdoBundle\Entity\Detalle;
+use TodoCerdo\TodoCerdoBundle\Entity\Estado;
 
 
 /**
@@ -68,7 +69,7 @@ class Pedido
     /**
      * @var "estado"
      *
-     * @ORM\ManyToOne(targetEntity="estado")
+     * @ORM\ManyToOne(targetEntity="Estado")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="estado_id", referencedColumnName="id")
      * })
@@ -78,7 +79,7 @@ class Pedido
     /**
      * @var "usuario"
      *
-     * @ORM\ManyToOne(targetEntity="usuario")
+     * @ORM\ManyToOne(targetEntity="Usuario")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
      * })
@@ -89,7 +90,7 @@ class Pedido
     /**
      * @var "direccion"
      * 
-     * @ORM\ManyToOne(targetEntity="direccion")
+     * @ORM\ManyToOne(targetEntity="Direccion")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="direccion_id", referencedColumnName="id")
      * })
@@ -229,9 +230,9 @@ class Pedido
     /**
      * Set estado
      *
-     * @param TodoCerdo\TodoCerdoBundle\Entity\estado $estado
+     * @param TodoCerdo\TodoCerdoBundle\Entity\Estado $estado
      */
-    public function setEstado(\TodoCerdo\TodoCerdoBundle\Entity\estado $estado)
+    public function setEstado(\TodoCerdo\TodoCerdoBundle\Entity\Estado $estado)
     {
         $this->estado = $estado;
     }
@@ -239,7 +240,7 @@ class Pedido
     /**
      * Get estado
      *
-     * @return TodoCerdo\TodoCerdoBundle\Entity\estado 
+     * @return TodoCerdo\TodoCerdoBundle\Entity\Estado 
      */
     public function getEstado()
     {
@@ -249,9 +250,9 @@ class Pedido
     /**
      * Set usuario
      *
-     * @param TodoCerdo\TodoCerdoBundle\Entity\usuario $usuario
+     * @param TodoCerdo\TodoCerdoBundle\Entity\Usuario $usuario
      */
-    public function setUsuario(\TodoCerdo\TodoCerdoBundle\Entity\usuario $usuario)
+    public function setUsuario(\TodoCerdo\TodoCerdoBundle\Entity\Usuario $usuario)
     {
         $this->usuario = $usuario;
     }
@@ -259,7 +260,7 @@ class Pedido
     /**
      * Get usuario
      *
-     * @return TodoCerdo\TodoCerdoBundle\Entity\usuario 
+     * @return TodoCerdo\TodoCerdoBundle\Entity\Usuario 
      */
     public function getUsuario()
     {

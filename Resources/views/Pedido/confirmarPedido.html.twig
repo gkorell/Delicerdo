@@ -21,7 +21,7 @@
     
     <div>
     {#Cargo formulario "DireccionType.php". #}
-        <form class="blogger" id="form_dar_ubicacion"
+        <form class="blogger" id="form_confirm_pedido"
               action="{{ path('TodoCerdoTodoCerdoBundle_finalizarPedido') }}" 
               method="post" {{ form_enctype(form) }} >
 
@@ -54,13 +54,14 @@
 
             $(document).ready(function(){
                 
-                $('#confirmarPedido_confirmaPrecio').click(function() {
+                $('#form_confirm_pedido').on('click','#confirmarPedido_confirmarPrecio',function() {
                 
-                    if( $('#confirmarPedido_confirmaPrecio').is(':checked')) {
-                        $('#confirmarPedido_modoConfirma').removeAttr("disabled");
+                    console.log("entra");
+                    if( $('#confirmarPedido_confirmarPrecio').is(':checked')) {
+                        $('#confirmarPedido_medioConfirmacion').removeAttr("disabled");
                         
                     }else{
-                        $('#confirmarPedido_modoConfirma').attr("disabled", "disabled");
+                        $('#confirmarPedido_medioConfirmacion').attr("disabled", "disabled");
                         
                     }
                 });
