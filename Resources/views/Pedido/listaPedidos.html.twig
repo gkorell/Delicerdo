@@ -3,6 +3,14 @@
 
 {% block title %}Lista de Pedidos{% endblock%}
 
+{% block stylesheets %}
+{{ parent() }}
+
+    {% stylesheets 'bundles/todocerdotodocerdo/css/reveal.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+{% endblock %}
 
 {% block body %}
     
@@ -30,7 +38,7 @@
                          <td>{{ pedido.horarioTentativo }}</td>
                          <td>{{ pedido.direccion.Localidad~" "~pedido.direccion.Calle~" "~pedido.direccion.altura}}</td>
                          <td>{{ pedido.estado }}</td>
-                         <td><a href="#" id="ver_pedido" name="{{pedido.id}}">Ver Pedido</a></td>
+                         <td><a href="#" class="editar_pedido" name="{{pedido.id}}">Ver Pedido</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -41,6 +49,8 @@
             
             
     </div>
+    
+    <div id="myModal" class="reveal-modal"></div>
     
 {%endblock%}
 
@@ -53,7 +63,9 @@
 
             $(document).ready(function(){
                
-               $('#editar_pedido').on('click', function(){
+               $('.editar_pedido').on('click', function(event){
+                   
+                   event.preventDefault();
                    
                    var url = "{{ path('TodoCerdoTodoCerdoBundle_editarPedido') }}";
                    var id = $(this).attr("name");
@@ -64,8 +76,9 @@
                         data:"id="+id,//concateno dos string
                         success: function(data){
                             //agregar validacion del success en caso que no retorne bien la descripcion
-                          //$("#myModal").html(data);//myModal es un elemento html con ese id
-                          //$('#myModal').reveal();//reveal es un metodo de una clase de ventanas modales
+                            //console.log("anda");
+                          $("#myModal").html(data);//myModal es un elemento html con ese id
+                          $('#myModal').reveal();//reveal es un metodo de una clase de ventanas modales
                         },
                         error: function(data) {
                             alert("ERROR");

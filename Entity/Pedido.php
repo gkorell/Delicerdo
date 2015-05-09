@@ -27,7 +27,7 @@ class Pedido
     /**
      * @var datetime $fechaEntrega
      *
-     * @ORM\Column(name="fecha_entrega", type="datetime", nullable=true)
+     * @ORM\Column(name="fecha_entrega", type="date", nullable=true)
      */
     protected $fechaEntrega;
 
@@ -62,7 +62,7 @@ class Pedido
     /**
      * @var datetime $fecha
      *
-     * @ORM\Column(name="fecha", type="datetime", nullable=false)
+     * @ORM\Column(name="fecha", type="date", nullable=false)
      */
     protected $fecha;
 

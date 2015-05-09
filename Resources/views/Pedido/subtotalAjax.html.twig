@@ -1,3 +1,13 @@
 {# empty Twig template: reemplaza el contenido de subtotal #}
-({{cantidadTotal}}) Subtotal:
-<span>$ {{precioTotal}}</span>
+<p>Mi carrito</p>
+
+<div class="subtotal">
+    ({{cantidadTotal| default('0')}}) Subtotal:
+    <span>$ {{precioTotal|number_format(2, '.', ',') | default('0.00')}}</span>
+</div>
+<div class="boton-carro">
+                
+    <p class="boton-link">
+        <a href="{{hrefBoton}}">{{contenidoBoton}}</a>
+    </p>
+</div>

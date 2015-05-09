@@ -41,16 +41,29 @@
     
 }
 
-.boton-carro:hover{
+/*.boton-carro:hover{
     background: #DBB258;
     cursor: pointer;
  
         
-}
+}*/
 
-.boton-carro:hover .boton-link{
+.boton-carro:hover{
     color: #5c4831;
+    background: #DBB258;
+    cursor: pointer;
     
          
 }
+
+.boton-carro a{
+    color:  #F48A00;
+    
+}
+.boton-carro a:hover{
+    //color:  #F48A00;
+     color: #5c4831;
+}
+
+
 

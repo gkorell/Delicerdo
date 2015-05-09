@@ -64,9 +64,21 @@ class PageController extends Controller
         $session = $this->getRequest()->getSession();
         $precioTotal = $session->get('precioTotal');
         $cantidadTotal = $session->get('cantidadTotal');
+        
+        //si tiene elementos en el carro renderiza el link, sino un texto
+        if($cantidadTotal!=0){
+            $contenido_boton = 'Finalizar Compra';
+            $href_boton = 'href="{{ path("TodoCerdoTodoCerdoBundle_detalleCarrito") }}"';
+            
+        }else{
+            $contenido_boton = 'Tu carrito esta vacio';
+            $href_boton = '#';
+        }
          return $this->render('TodoCerdoTodoCerdoBundle:Page:sidebar.html.twig', 
                 array('cantidadTotal' => $cantidadTotal,
-                      'precioTotal' => $precioTotal
+                      'precioTotal' => $precioTotal,
+                    'contenidoBoton' => $contenido_boton,
+                    'hrefBoton' => $href_boton
                    ));
     }
  }

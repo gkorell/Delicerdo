@@ -107,6 +107,11 @@ TodoCerdoTodoCerdoBundle_listarPedidos:
     pattern: /listarPedidos/
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:listarPedidos}
     requirements: {_method: GET|POST}
+    
+TodoCerdoTodoCerdoBundle_editarPedido:
+    pattern: /editarPedido/
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:editarPedido}
+    requirements: {_method: GET|POST}
 
 receta:
     pattern:  /receta/

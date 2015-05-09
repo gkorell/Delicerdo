@@ -73,10 +73,15 @@ class PedidoController extends Controller {
         $session->set('cantidadTotal', $cantidadTotal);
         $session->set('precioTotal', $precioTotal);
         $session->set('carrito', $carrito);
+        
+        $contenido_boton = 'Finalizar Compra';
+        $href_boton = 'href="{{ path("TodoCerdoTodoCerdoBundle_detalleCarrito") }}"';
 
         return $this->render('TodoCerdoTodoCerdoBundle:Pedido:subtotalAjax.html.twig', 
                 array('cantidadTotal' => $cantidadTotal,
-                      'precioTotal' => $precioTotal
+                      'precioTotal' => $precioTotal,
+                    'contenidoBoton' => $contenido_boton,
+                    'hrefBoton' => $href_boton
                    ));
     }
     
@@ -284,15 +289,18 @@ class PedidoController extends Controller {
         
         
         $session = $this->getRequest()->getSession();
-        
+        $pedido = new Pedido();
         $direccion = new Direccion();
         
         $direccion = $this->getRequest()->get("direccion");
         
         $session->set("direccionEnvio", $direccion);
         
-        $form = $this->createForm(new PedidoType());
-        
+        try{
+            $form = $this->createForm(new PedidoType($pedido));
+        } catch (\Exception $e){
+            throwException($e);
+        }
         
         return $this->render('TodoCerdoTodoCerdoBundle:Pedido:confirmarPedido.html.twig', array('form' => $form->createView()));
         
@@ -457,7 +465,32 @@ class PedidoController extends Controller {
     
     public function editarPedidoAction(){
      
+        $request = $this->getRequest();
+        $idPedido=null;
+        $pedido = null;
         
+        if ($request->getMethod() == "GET") {
+            $idPedido=$request->get('id');
+            
+            $em = $this->getDoctrine()->getManager();
+            
+            $pedido = $em->getRepository('TodoCerdoTodoCerdoBundle:Pedido')->find($idPedido);
+            
+            if(!$pedido ){
+                
+                throw $this->createNotFoundException('El pedido no existe');
+                
+            }else{
+            
+                $editForm = $this->createForm(new PedidoType(), $pedido);
+                //$deleteForm = $this->createDeleteForm($idProducto);
+            }
+
+        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:editarPedidoAjax.html.twig', array(
+            'pedido'      => $pedido,
+            'edit_form'   => $editForm->createView(),
+            ));
+        }
         
     }
     
