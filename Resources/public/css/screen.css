@@ -33,7 +33,7 @@ background: -ms-radial-gradient(circle, #FDE868, #704500);
 pera cannot do radial gradients yet */ 
 }
 title {font-family: 'Lobster', cursive;}
-h1 {font-family: 'Bowlby One', sans-serif; color: #5c4831}
+h1,h3 {font-family: 'Bowlby One', sans-serif; color: #5c4831}
 p {font-family: 'Quattrocento Sans', sans-serif; color:  #5c4831}
 .clear { clear: both; }
 

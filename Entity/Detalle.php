@@ -10,6 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="Detalle")
  * @ORM\Entity
  */
+
+/**
+ * @ORM\Entity(repositoryClass="TodoCerdo\TodoCerdoBundle\Repository\DetalleRepository")
+ */
 class Detalle
 {
     /**
@@ -31,7 +35,7 @@ class Detalle
     /**
      * @var "pedido"
      *
-     * @ORM\ManyToOne(targetEntity="pedido")
+     * @ORM\ManyToOne(targetEntity="Pedido")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pedido_id", referencedColumnName="id")
      * })
@@ -41,7 +45,7 @@ class Detalle
     /**
      * @var "producto"
      *
-     * @ORM\ManyToOne(targetEntity="producto")
+     * @ORM\ManyToOne(targetEntity="Producto")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
      * })
@@ -126,6 +130,6 @@ class Detalle
      * 
      */
     public function calcularSubtotal(){
-        return $this->cantidad * $this->producto->calcularPrecio();
+        return number_format($this->cantidad * $this->producto->calcularPrecio(),2,',','.');
     }
 }

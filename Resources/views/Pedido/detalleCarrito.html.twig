@@ -56,14 +56,14 @@ Total General : {{precioTotal}}
     $(document).ready(function(){
     
         $('.delete').live('click',function(){
-            var id = $(this).attr("id");
+            var indice = $(this).attr("id");
             var sub = $(this).attr("name");
             var url = "{{ path('TodoCerdoTodoCerdoBundle_eliminarDetalle') }}";
             
             $.ajax({
                 type:"GET",
                 url:url,
-                data:{elemento: id, subtotal:sub },
+                data:{elemento: indice, subtotal:sub },
                 success: function(data){
                 $('#tablaDetalle').html(data);
             }

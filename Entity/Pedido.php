@@ -65,7 +65,16 @@ class Pedido
      * @ORM\Column(name="fecha", type="date", nullable=false)
      */
     protected $fecha;
+    
+    
+    /**
+     * @var float $precioTotal;
+     *
+     * @ORM\Column(name="precio_total", type="float", nullable=true)
+     */
+    protected $precioTotal;
 
+    
     /**
      * @var "estado"
      *
@@ -126,6 +135,29 @@ class Pedido
     {
         return $this->fechaEntrega;
     }
+    
+    
+    /**
+     * Set fechaEntrega
+     *
+     * @param datetime $fechaEntrega
+     */
+    public function setPrecioTotal($precioTotal)
+    {
+        $this->precioTotal = $precioTotal;
+    }
+
+    /**
+     * Get precioTotal
+     *
+     * @return float 
+     */
+    public function getPrecioTotal()
+    {
+        return $this->precioTotal;
+    }
+    
+    
 
     /**
      * Set horarioTentativo

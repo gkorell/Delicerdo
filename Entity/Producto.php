@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
+
 class Producto
 {
     /**

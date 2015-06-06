@@ -9,6 +9,9 @@
     {% stylesheets 'bundles/todocerdotodocerdo/css/reveal.css' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
+     {% stylesheets 'bundles/todocerdotodocerdo/css/detalle.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
 
 {% endblock %}
 
@@ -29,6 +32,7 @@
                 <th>Horario</th>
                 <th>Direccion</th>
                 <th>Estado</th>
+                <th></th>
                 </tr>
                 {% for pedido in pagination %}
                     

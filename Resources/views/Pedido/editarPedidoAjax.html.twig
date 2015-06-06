@@ -1,14 +1,27 @@
 {# empty Twig template #}
-<form action="#" method="post" {{ form_enctype(edit_form) }}>
+<lable>Estado del Pedido:</lable>
+<select name="estado" id="estado">
+    {% for estado in estados %}
+        {%if pedido.estado == estado %}
+            <option value="{{estado.id}}" selected>{{estado}}</option>
+        {%else%}
+            <option value="{{estado.id}}">{{estado}}</option>
+        {%endif%}
+    {%endfor%}
+</select>
+<h3>Detalle del Pedido:</h3>
+<table>
+    <th>Producto</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th>
     
-    {{form_row(edit_form.fechaEntrega, { 'attr': { 'readonly': 'true' } })}}
-    {{form_row(edit_form.horarioTentativo, { 'attr': { 'readonly': 'true' } })}}
-    {{form_row(edit_form.confirmarPrecio, { 'attr': { 'readonly': 'true' } })}}
-    {{form_row(edit_form.medioConfirmacion, { 'attr': { 'readonly': 'true' } })}}
-    {{form_row(edit_form.pagaCon, { 'attr': { 'readonly': 'true' } })}}
-    {{form_row(edit_form.Estado)}}
-     {{ form_row(edit_form.save, { 'label': 'Aceptar' }) }}
-    {{ form_rest(edit_form) }}
-
-    
-</form>
+    {% for det in detalle %}
+        
+        <tr>
+            <td>{{det.producto}}</td>
+            <td>${{det.producto.calcularPrecio}}</td>
+            <td>{{det.cantidad}}</td>
+            <td>${{det.calcularSubtotal}}</td>
+        </tr>
+        
+    {%endfor%}    
+</table>
+    <div class="leyenda"><p>Costo de env&iacute;o: ${{pedido.direccion.zona.costoEnvio}}</p></div><div class="total"><p></p></div><div class="pagacon"></div>

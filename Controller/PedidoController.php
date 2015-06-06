@@ -25,6 +25,7 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
+
 class PedidoController extends Controller {
     
     public function addDetalleAction() {
@@ -62,7 +63,7 @@ class PedidoController extends Controller {
         $subTotal = 0;
         $subTotal = $detalle->calcularSubtotal();
         $precioTotal = $session->get('precioTotal');
-
+        
         if (isset($precioTotal)) {
             $precioTotal = $subTotal + $precioTotal;
         } else {
@@ -75,7 +76,7 @@ class PedidoController extends Controller {
         $session->set('carrito', $carrito);
         
         $contenido_boton = 'Finalizar Compra';
-        $href_boton = 'href="{{ path("TodoCerdoTodoCerdoBundle_detalleCarrito") }}"';
+        $href_boton = 'TodoCerdoTodoCerdoBundle_detalleCarrito';
 
         return $this->render('TodoCerdoTodoCerdoBundle:Pedido:subtotalAjax.html.twig', 
                 array('cantidadTotal' => $cantidadTotal,
@@ -94,14 +95,14 @@ class PedidoController extends Controller {
         
         $precioTotal = $session->get('precioTotal');
         $cantidadTotal = $session->get('cantidadTotal');
-        
+        $cantidad = $carrito[$elemento]->getCantidad();
         $precio = $this->getRequest()->get("subtotal");
         
         unset($carrito[$elemento]);
         $carrito = array_values($carrito);
         
         $precioTotal = $precioTotal - $precio;
-        $cantidadTotal = $cantidadTotal -1;
+        $cantidadTotal = $cantidadTotal - $cantidad; 
         
         $session->set('precioTotal',$precioTotal);
         $session->set('cantidadTotal',$cantidadTotal);
@@ -298,7 +299,7 @@ class PedidoController extends Controller {
         
         try{
             $form = $this->createForm(new PedidoType($pedido));
-        } catch (\Exception $e){
+        } catch (Exception $e){
             throwException($e);
         }
         
@@ -371,17 +372,17 @@ class PedidoController extends Controller {
 
                     $carrito = $session->get('carrito');
                     $cant = $session->get('cantidadTotal');
+                    $precioTotal = $session->get('precioTotal');
 
-
-                    for($i=0;$i<$cant;$i++){
-
+                    //for($i=0;$i<$cant;$i++){
+                    foreach($carrito as $car){        
                         $detalle = new Detalle();
                         $producto = new Producto();
-                        $idproducto = $carrito[$i]->getProducto()->getId();
+                        $idproducto = $car->getProducto()->getId();
                         
                         $producto = $em->getRepository('TodoCerdoTodoCerdoBundle:Producto')->find($idproducto);
                         
-                        $cantidad = $carrito[$i]->getCantidad();
+                        $cantidad = $car->getCantidad();
                         
                         $detalle->setProducto($producto);
                         $detalle->setCantidad($cantidad);
@@ -481,14 +482,19 @@ class PedidoController extends Controller {
                 throw $this->createNotFoundException('El pedido no existe');
                 
             }else{
-            
-                $editForm = $this->createForm(new PedidoType(), $pedido);
+                
+                $em = $this->getDoctrine()->getManager();
+                $detalle = $em->getRepository('TodoCerdoTodoCerdoBundle:Detalle')->findByPedido($idPedido);
+                //$editForm = $this->createForm(new PedidoType(), $pedido);
                 //$deleteForm = $this->createDeleteForm($idProducto);
             }
+            
+            $estados = $em->getRepository('TodoCerdoTodoCerdoBundle:Estado')->findAll();
 
         return $this->render('TodoCerdoTodoCerdoBundle:Pedido:editarPedidoAjax.html.twig', array(
-            'pedido'      => $pedido,
-            'edit_form'   => $editForm->createView(),
+            'pedido' => $pedido,
+            'detalle' => $detalle,
+            'estados' => $estados
             ));
         }
         

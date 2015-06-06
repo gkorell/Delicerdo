@@ -68,11 +68,11 @@ class PageController extends Controller
         //si tiene elementos en el carro renderiza el link, sino un texto
         if($cantidadTotal!=0){
             $contenido_boton = 'Finalizar Compra';
-            $href_boton = 'href="{{ path("TodoCerdoTodoCerdoBundle_detalleCarrito") }}"';
+            $href_boton = 'TodoCerdoTodoCerdoBundle_detalleCarrito';
             
         }else{
             $contenido_boton = 'Tu carrito esta vacio';
-            $href_boton = '#';
+            //$href_boton = '';
         }
          return $this->render('TodoCerdoTodoCerdoBundle:Page:sidebar.html.twig', 
                 array('cantidadTotal' => $cantidadTotal,

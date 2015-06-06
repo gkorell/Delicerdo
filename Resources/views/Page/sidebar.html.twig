@@ -18,7 +18,11 @@
             <div class="boton-carro">
                 
                 <p class="boton-link">
-                    <a href="{{hrefBoton}}">{{contenidoBoton}}</a>
+                    {%if cantidadTotal!=0 %}
+                        <a href="{{path(hrefBoton)}}">{{contenidoBoton}}</a>
+                    {%else%}
+                        <a>{{contenidoBoton}}</a>
+                    {%endif%}
                 </p>
             </div>
             
