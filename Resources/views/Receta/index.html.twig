@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
 {{ parent() }}
-{% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/recetas.css' %}
+{% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/listas.css' %}
     <link rel="stylesheet" href="{{ asset_url }}" />
 {% endstylesheets %}
 {% stylesheets 'bundles/todocerdotodocerdo/css/reveal.css' filter='cssrewrite' %}
@@ -14,11 +14,11 @@
 {% block body %}
 <h1>Listado de Recetas</h1>
 
-<ul class="column-190 paging">
+<ul class="column-190-recetas paging">
     
 {% for entity in entities %}
 <li>
-     <div class="highlight-one">
+     <div class="highlight-one-recetas">
     
     <a href="#" name="{{entity.id}}" class="modal_desc"><img src="{{ asset(entity.getWebPath()) }}" alt="Guineos con camarones en escabeche" height="135" width="186"></a>
     <a href="#" name="{{entity.id}}" class="modal_desc recipe-title" title="{{ entity.titulo }}"><strong>{{ entity.titulo }}</strong></a>
@@ -28,7 +28,7 @@
           <br/>
           <br/>
         <dt>Autor:</dt>
-        <dd>Doreen Colondres</dd>
+        <dd></dd>
         {% if is_granted("ROLE_ADMIN") %}
              <dd><a href="{{ path('receta_edit', { 'id': entity.id }) }}">Editar</a></dd>
         {% endif %}
@@ -47,8 +47,8 @@
     <li>
         {% if is_granted("ROLE_ADMIN") %}
      
-            <a href="{{ path('receta_new') }}">
-                Crear una nueva receta
+            <a class="button" href="{{ path('receta_new') }}">
+                Agregar nueva receta
             </a>
         {% endif %}
     </li>

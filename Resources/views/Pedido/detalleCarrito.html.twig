@@ -9,37 +9,36 @@
 <div id="tablaDetalle">
 <table>
     <tr>
-        <td></td>
-        <td>Foto</td>
-        <td>Nombre del Producto</td>
-        
-        <td>Precio Unitario</td>
-        <td>Cantidad</td>
-        <td>Subtotal</td>
+        <th></th>
+        <th>Producto</th>
+        <th>Precio Unitario</th>
+        <th>Cantidad</th>
+        <th>Subtotal</th>
+        <th>Borrar</th>
     </tr>
 {% set cant = 0 %}    
 
 {% for detalle in carrito %}
     <tr>
-        <td>
-            {% image '@TodoCerdoTodoCerdoBundle/Resources/public/images/delete.png' %}
-              <img class="delete" id="{{cant}}" name="{{detalle.calcularSubtotal}}" src="{{ asset_url }}"/>
-            {% endimage %}
-        </td>
         <td><img src="{{asset(detalle.producto.getWebPath())}}"></td>
         <td>{{detalle.producto.getNombre()}}</td>
         <td>{{detalle.producto.calcularPrecio()}}</td>
         <td>{{detalle.cantidad}}</td>
         <td>{{detalle.calcularSubtotal}}</td>
+        <td>
+            {% image '@TodoCerdoTodoCerdoBundle/Resources/public/images/delete.png' %}
+              <img class="delete" id="{{cant}}" name="{{detalle.calcularSubtotal}}" src="{{ asset_url }}"/>
+            {% endimage %}
+        </td>
     </tr>
     {% set cant=cant+1 %}
 {%endfor%}
     
 </table>
 
-Total General : {{precioTotal}}
+Total: ${{precioTotal}}
 </div>
-<button>Continuar Comprando</button>
+<a href="{{ path('TodoCerdoTodoCerdoBundle_productos')}}"><button>Continuar Comprando</button></a>
 <a href="{{ path('TodoCerdoTodoCerdoBundle_darUbicacion') }}"><button>Finalizar Pedido</button></a>
 
 {% endblock %}

@@ -3,7 +3,7 @@
 
 {% block stylesheets %}
 {{ parent() }}
-    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/productos.css' %}
+    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/listas.css' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 
@@ -43,6 +43,6 @@
           
  </ul>  
 {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('TodoCerdoTodoCerdoBundle_newproducto') }}">Agregar un producto</a>
+        <a class="button" href="{{ path('TodoCerdoTodoCerdoBundle_newproducto') }}">Agregar un producto</a>
         {% endif %}
 {% endblock %}

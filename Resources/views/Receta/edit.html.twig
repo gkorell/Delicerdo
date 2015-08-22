@@ -15,20 +15,20 @@
     {{form_rest(edit_form)}} 
     {% endautoescape %}
     <p>
-        <button type="submit">Edit</button>
+        <button class="button" type="submit">Guardar</button>
     </p>
 </form>
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('receta') }}">
-            Back to the list
+        <a class="link_navegacion" href="{{ path('receta') }}">
+            Volver a Recetas
         </a>
     </li>
     <li>
         <form action="{{ path('receta_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
+            <button class="button" type="submit">Borrar</button>
         </form>
     </li>
 </ul>

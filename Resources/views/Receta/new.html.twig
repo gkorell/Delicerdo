@@ -11,13 +11,13 @@
 <form class="blogger" action="{{ path('receta_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
    
-    <input type="submit" value="Guardar" />
+    <input type="submit" class="button" value="Guardar" />
   
 </form>
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('receta') }}">
+        <a class="link_navegacion" href="{{ path('receta') }}">
             Volver al listado
         </a>
     </li>

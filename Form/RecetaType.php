@@ -12,7 +12,7 @@ class RecetaType extends AbstractType
         $builder
             ->add('titulo','text',array('label'=>'Titulo: '))
             ->add('file')
-            ->add('descripcion','text',array('label'=>'Descripcion: '))
+            ->add('descripcion','text',array('label'=>'Subtitulo: '))
             ->add('detalle','textarea',array('label'=>'Detalle: ','attr' => array(
             'class' => 'tinymce',
             'data-theme' => 'simple' // simple, advanced, bbcode

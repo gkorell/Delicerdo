@@ -4,7 +4,7 @@
 {% block stylesheets %}
 {{ parent() }}
 
-    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/recetas.css'%}
+    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/listas.css'%}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 
@@ -86,12 +86,12 @@
 <ul>
     <li>
         {% if is_granted("ROLE_ADMIN") %}
-        <a  href="{{ path('TodoCerdoTodoCerdoBundle_newproducto') }}">Agregar un producto</a>
+        <a class="button"  href="{{ path('TodoCerdoTodoCerdoBundle_newproducto') }}">Agregar nuevo producto</a>
         {% endif %}
     </li>
     <br/>
     <li>
-        <a href="{{ path('TodoCerdoTodoCerdoBundle_productos') }}">Volver</a>
+        <a class="link_navegacion" href="{{ path('TodoCerdoTodoCerdoBundle_productos') }}">Volver</a>
     </li>
 </ul>        
 <div id="myModal" class="reveal-modal"></div>

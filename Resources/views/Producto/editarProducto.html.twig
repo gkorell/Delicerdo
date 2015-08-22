@@ -23,16 +23,16 @@
      
    
     <p>
-        <input type="submit" value="Editar"/>
+        <input class="button" type="submit" value="Editar"/>
     </p>
 </form>
 
 <form class="blogger" action="{{ path('TodoCerdoTodoCerdoBundle_deleteproducto', { 'idProducto': producto.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <input type="submit" value="Borrar"/>
+            <input class="button" type="submit" value="Borrar"/>
 </form>
     
-<a style="float:left; margin-top: 16px; margin-left: 29px;" href="{{ path('TodoCerdoTodoCerdoBundle_productos') }}">
+<a class="link_navegacion" href="{{ path('TodoCerdoTodoCerdoBundle_productos') }}">
             Volver al listado
 </a>
     

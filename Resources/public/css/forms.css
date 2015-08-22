@@ -34,12 +34,12 @@ form.blogger textarea { width: 450px; height: 150px; line-height: 26px; font-siz
 form.blogger input[type="submit"] {
     float:right; 
     margin-right: 113px; 
-    width: 100px; 
-    line-height: 26px; 
-    font-size: 20px; 
-    min-height: 26px; 
+    /*width: 100px;*/ 
+    /*line-height: 26px; */
+    /*font-size: 20px; */
+    /*min-height: 26px; */
     margin-top: 40px;
-    background: linear-gradient(to bottom, #5E8FC7 0%, #2F67B2 50%, #2F67B2 100%) repeat scroll 0 0 transparent;
+    /*background: linear-gradient(to bottom, #5E8FC7 0%, #2F67B2 50%, #2F67B2 100%) repeat scroll 0 0 transparent;*/
 }
 
 form.blogger ul li { color: #ff0000; margin-bottom: 5px; }
