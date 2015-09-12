@@ -4,7 +4,7 @@
 {% block title %}Alta de Producto{% endblock%}
 
 {% block body %}
-    <p>Editar producto</p>
+   <h1>Editar producto</h1>
 
    <form class="blogger" action="{{ path('TodoCerdoTodoCerdoBundle_updateproducto', { 'idProducto': producto.id }) }}" method="post" {{ form_enctype(edit_form) }}>
    
@@ -16,24 +16,24 @@
      {{ form_row(edit_form.file) }}    
      {{ form_row(edit_form.tipoProducto) }}
      {#{% form_theme edit_form 'TodoCerdoTodoCerdoBundle:Form:fields.html.twig' %}#}
-    {#{% form_theme edit_form 'TodoCerdoTodoCerdoBundle:Form:campo_select.html.twig' %}#}
+     {#{% form_theme edit_form 'TodoCerdoTodoCerdoBundle:Form:campo_select.html.twig' %}#}
      {{ form_row(edit_form.tipoCocciones) }}
      {{ form_rest(edit_form) }}
     
      
    
-    <p>
-        <input class="button" type="submit" value="Editar"/>
-    </p>
-</form>
+        <p>
+            <input class="button" type="submit" value="Editar"/>
+        </p>
+    </form>
 
-<form class="blogger" action="{{ path('TodoCerdoTodoCerdoBundle_deleteproducto', { 'idProducto': producto.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <input class="button" type="submit" value="Borrar"/>
-</form>
+    <form class="blogger" action="{{ path('TodoCerdoTodoCerdoBundle_deleteproducto', { 'idProducto': producto.id }) }}" method="post">
+                {{ form_widget(delete_form) }}
+        <input class="button" type="submit" value="Borrar"/>
+    </form>
     
-<a class="link_navegacion" href="{{ path('TodoCerdoTodoCerdoBundle_productos') }}">
-            Volver al listado
-</a>
+    <a class="link_navegacion" href="{{ path('TodoCerdoTodoCerdoBundle_productos') }}">
+        Volver al listado
+    </a>
     
 {% endblock %}

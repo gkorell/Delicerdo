@@ -17,6 +17,7 @@ class RecetaType extends AbstractType
             'class' => 'tinymce',
             'data-theme' => 'simple' // simple, advanced, bbcode
             )))
+            ->add('autor','text',array('label'=>'Autor: '))
             ->add('tipococcion_id','entity',array('label'=>'Tipo de Cocción: ','class'=>'TodoCerdoTodoCerdoBundle:TipoCoccion'))
             ->add('producto_id','entity',array('label'=>'Producto: ','class'=>'TodoCerdoTodoCerdoBundle:Producto'))
         ;

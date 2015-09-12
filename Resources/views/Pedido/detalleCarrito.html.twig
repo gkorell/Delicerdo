@@ -2,10 +2,17 @@
 
 {% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
 
+{% block stylesheets %}
+{{ parent() }}
 
+    {% stylesheets 'bundles/todocerdotodocerdo/css/detalle.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+{% endblock %}
 
 {% block body %}
-<h1>Carrito de Compras</h1>
+<h2>Detalle de su compra</h2>
 <div id="tablaDetalle">
 <table>
     <tr>
@@ -20,11 +27,11 @@
 
 {% for detalle in carrito %}
     <tr>
-        <td><img src="{{asset(detalle.producto.getWebPath())}}"></td>
+        <td><img class="img" src="{{asset(detalle.producto.getWebPath())}}"></td>
         <td>{{detalle.producto.getNombre()}}</td>
-        <td>{{detalle.producto.calcularPrecio()}}</td>
+        <td>${{detalle.producto.calcularPrecio()}}</td>
         <td>{{detalle.cantidad}}</td>
-        <td>{{detalle.calcularSubtotal}}</td>
+        <td>${{detalle.calcularSubtotal}}</td>
         <td>
             {% image '@TodoCerdoTodoCerdoBundle/Resources/public/images/delete.png' %}
               <img class="delete" id="{{cant}}" name="{{detalle.calcularSubtotal}}" src="{{ asset_url }}"/>
@@ -36,11 +43,12 @@
     
 </table>
 
-Total: ${{precioTotal}}
+<div class="leyenda"><p>(*) NO INCLUYE GASTOS DE ENVÍO</p></div><div class="total"><p>(*)Total: ${{precioTotal}}</p></div>
 </div>
-<a href="{{ path('TodoCerdoTodoCerdoBundle_productos')}}"><button>Continuar Comprando</button></a>
-<a href="{{ path('TodoCerdoTodoCerdoBundle_darUbicacion') }}"><button>Finalizar Pedido</button></a>
-
+<div class="botones">
+    <a href="{{ path('TodoCerdoTodoCerdoBundle_productos')}}"><button>Continuar Comprando</button></a>
+    <a href="{{ path('TodoCerdoTodoCerdoBundle_darUbicacion')}}"><button>Finalizar Pedido</button></a>
+</div>
 {% endblock %}
 
 {% block sidebar %}
@@ -64,9 +72,9 @@ Total: ${{precioTotal}}
                 url:url,
                 data:{elemento: indice, subtotal:sub },
                 success: function(data){
-                $('#tablaDetalle').html(data);
-            }
-             });
+                    $('#tablaDetalle').html(data);
+                }
+            });
         
         });
     

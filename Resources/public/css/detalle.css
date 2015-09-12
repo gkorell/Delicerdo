@@ -6,8 +6,16 @@ th {
     font-weight: 700;
     height: 35px;
     vertical-align: middle;
-    text-align: left;
+    text-align: center;
     min-width: 90px;
+}
+
+tr:nth-child(odd){
+    background-color: rgb(233,234,229);
+}
+
+tr:nth-child(even){
+    background-color: rgb(225,226,221);
 }
 
 
@@ -17,17 +25,53 @@ th {
     font-size: 12px;
     line-height: 18px;
     vertical-align: middle;
-    text-align: left;
+    text-align: center;
     font-weight: normal;
     
+}
+
+td .img{
+     height:105px; 
+     width:156px;
+}
+
+.leyenda {
+    display: block;
+    float: left;
+    height: 26px;
+    margin: 0 0 0 83px;
+    padding: 9px 0 0;
+    width: 50%;
 }
 
 .leyenda p {
     color: #000000;
     font-size: 10px;
     padding-left: 14px;
-    width: 500px;
+   
+}
+
+.total {
     display: block;
-    line-height: 18px;
-    margin: 0 0 10px;
+    float: left;
+    margin: 0;
+    padding: 9px 0 8px;
+    width: 29%;
+}
+
+.total p {
+    color: #000000;
+    display: inline;
+    float: left;
+    font-family: "Titillium Web",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 5px 0 0;
+    width: 134px;
+}
+
+.botones{
+    
+    margin-top: 40px;
+    float: left;
 }

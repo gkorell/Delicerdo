@@ -1,7 +1,7 @@
 {% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
 
 {% block body %}
-<h1>Receta edit</h1>
+<h1>Editar Receta</h1>
 
 <form class="blogger" action="{{ path('receta_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {% autoescape false %}
@@ -15,7 +15,7 @@
     {{form_rest(edit_form)}} 
     {% endautoescape %}
     <p>
-        <button class="button" type="submit">Guardar</button>
+        <input class="button" type="submit" value="Guardar"/>
     </p>
 </form>
 
@@ -26,9 +26,9 @@
         </a>
     </li>
     <li>
-        <form action="{{ path('receta_delete', { 'id': entity.id }) }}" method="post">
+        <form class="blogger" action="{{ path('receta_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button class="button" type="submit">Borrar</button>
+            <input class="button" type="submit" value="Borrar"/>
         </form>
     </li>
 </ul>

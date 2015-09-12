@@ -37,6 +37,13 @@ class Receta
      * @ORM\Column(name="descripcion", type="string", length=100, nullable=true)
      */
     protected  $descripcion;
+    
+      /**
+     * @var string $autor
+     *
+     * @ORM\Column(name="autor", type="string", length=50, nullable=true)
+     */
+    protected  $autor;
 
     /**
      * @var text $detalle
@@ -219,6 +226,27 @@ class Receta
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+    
+    
+    /**
+     * Set autor
+     *
+     * @param string $autor
+     */
+    public function setAutor($autor)
+    {
+        $this->autor = $autor;
+    }
+
+    /**
+     * Get autor
+     *
+     * @return string 
+     */
+    public function getAutor()
+    {
+        return $this->autor;
     }
 
     /**
