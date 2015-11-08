@@ -1,47 +1,53 @@
 {# empty Twig template #}
 <div>
-    <label class=" required" for="direccion">Direccion</label>
-    <select id="direccion" name="direccion" required="required">
-    <input id="agregar" class="modal_desc" type="button" value="Agregar dirección">
-</div>
 <div>
-    <label for="direccion_Localidad" class=" required">Localidad</label>
-    <select id="direccion_Localidad" name="direccion[Localidad]" required="required" disabled="true">
-        {%for localidad in localidades %}
-            {%if localidad.id == localidadId %}    
-                <option value="{{localidad.id}}" selected="selected">{{localidad.nombre}}</option>
-            {%else%}
-                <option value="{{localidad.id}}" >{{localidad.nombre}}</option>
-            {%endif%}    
-        {%endfor%}
-    </select>
-</div>
-<div id="zona">
-<div>
-    <form class="blogger" id="form_dar_ubicacion"
-              action="/app_dev.php/continuarPedido" 
-              method="post"  >
+<label class=" required" for="direccion">Direccion</label>
+<select id="direccion" name="direccion" required="required">
+    {%for dir in direcciones %}
+        {%if dir.id == direccion.id %}
+            <option value="{{dir.id}}" selected="selected">{{dir.nombre}}</option>
+        {%else%}
+            <option value="{{dir.id}}" >{{dir.nombre}}</option>
+        {%endif%}
+    {%endfor%}
+</select>
 
+
+<input id="agregar" class="modal_desc" type="button" value="Agregar dirección">
+</div>
+<div>
+    <form class="blogger" id="form_dar_ubicacion" action="/app_dev.php/continuarPedido" method="post" >
+        
+    <div>
+        <label for="direccion_Localidad" class=" required">Localidad</label>
+        <select id="direccion_Localidad" name="direccion[Localidad]" required="required" disabled="true">
+            {%for localidad in localidades %}
+                {%if localidad.id == localidadId %}
+                    <option value="{{localidad.id}}" selected="selected">{{localidad.nombre}}</option>
+                {%else%}
+                    <option value="{{localidad.id}}" >{{localidad.nombre}}</option>
+                {%endif%}
+            {%endfor%}
+        </select>
+    </div>
     <div>
         <label for="direccion_Zona" class=" required">Zona</label>
         <select id="direccion_Zona" name="direccion[Zona]" required="required" disabled="true">
             {%for zona in zonas %}
-                {%if zona.id == zonaId %}
+                {%if zona.id == zonaId%}
                     <option value="{{zona.id}}" selected="selected" disabled="true">{{zona.nombre}}</option>
                 {%else%}
                     <option value="{{zona.id}}">{{zona.nombre}}</option>
                 {%endif%}
             {%endfor%}
         </select>
-    </div>    
-
-<div id="calle">
-
-    <div>
-        <label for="direccion_Calle" class=" required">Calle</label>
-        <input id="direccion_Calle" name="direccion[Calle]" required="required" type="text" readonly="true" value="{{direccion.calle}}">
-    </div>
+    </div> 
+        
+<div>
+    <label for="direccion_Calle" class=" required">Calle</label>
+    <input id="direccion_Calle" name="direccion[Calle]" required="required" type="text" readonly="true" value="{{direccion.calle}}">
 </div>
+
     <input id="direccion__token" name="direccion[_token]" value="3822bcdf9dc09042fb73124a06aac0934079a1a7" type="hidden">
     <div>
         <label for="direccion_Altura" class=" required">Altura</label>
@@ -59,7 +65,6 @@
         <label for="direccion_Nombre" class=" required">Nombre</label>
         <input id="direccion_Nombre" name="direccion[Nombre]" required="required" type="text" readonly="true" value="{{direccion.nombre}}">
     </div>
-
-    <input type="submit" value="Continuar con el Pedido" />
+    
     </form>
 </div>

@@ -30,11 +30,11 @@
         <td><img class="img" src="{{asset(detalle.producto.getWebPath())}}"></td>
         <td>{{detalle.producto.getNombre()}}</td>
         <td>${{detalle.producto.calcularPrecio()}}</td>
-        <td>{{detalle.cantidad}}</td>
-        <td>${{detalle.calcularSubtotal}}</td>
+        <td><input class="input_cant" type="text" maxlength="2" id="cantidad{{cant}}" value="{{detalle.cantidad}}"/></td>
+        <td id="subtotal{{cant}}" >${{detalle.calcularSubtotal}}</td>
         <td>
             {% image '@TodoCerdoTodoCerdoBundle/Resources/public/images/delete.png' %}
-              <img class="delete" id="{{cant}}" name="{{detalle.calcularSubtotal}}" src="{{ asset_url }}"/>
+              <img class="delete" id="{{cant}}" src="{{ asset_url }}"/>
             {% endimage %}
         </td>
     </tr>
@@ -43,11 +43,12 @@
     
 </table>
 
-<div class="leyenda"><p>(*) NO INCLUYE GASTOS DE ENVÍO</p></div><div class="total"><p>(*)Total: ${{precioTotal}}</p></div>
-</div>
+<div class="leyenda"><p>(*) NO INCLUYE GASTOS DE ENVÍO</p></div><div class="total"><p id="total">(*)Total: ${{precioTotal}}</p></div>
+
 <div class="botones">
     <a href="{{ path('TodoCerdoTodoCerdoBundle_productos')}}"><button>Continuar Comprando</button></a>
     <a href="{{ path('TodoCerdoTodoCerdoBundle_darUbicacion')}}"><button>Finalizar Pedido</button></a>
+</div>
 </div>
 {% endblock %}
 
@@ -64,18 +65,37 @@
     
         $('.delete').live('click',function(){
             var indice = $(this).attr("id");
-            var sub = $(this).attr("name");
             var url = "{{ path('TodoCerdoTodoCerdoBundle_eliminarDetalle') }}";
             
             $.ajax({
-                type:"GET",
+                type:"POST",
                 url:url,
-                data:{elemento: indice, subtotal:sub },
+                data:{elemento: indice},
                 success: function(data){
                     $('#tablaDetalle').html(data);
                 }
             });
         
+        });
+        
+        $('.input_cant').live('change',function(){
+            var id = $(this).attr("id");
+            var numero=id.length - 8;
+            var index = id.substr(8,numero);
+            var url = "{{ path('TodoCerdoTodoCerdoBundle_actualizarCantidadDetalle') }}";
+            var new_cant = $(this).attr("value");
+            $.ajax({
+                type:"POST",
+                url:url,
+                dataType:"json",
+                data:{elemento: index, new_cant:new_cant },
+                success: function(data){
+                    //$('#tablaDetalle').html(data);
+                    $('#subtotal'+data.elemento).html('$'+data.new_subtotal);
+                    $('#total').html('(*)Total: $'+data.new_precioTotal);
+                    console.log(data.new_precioTotal);
+                }
+            });
         });
     
     

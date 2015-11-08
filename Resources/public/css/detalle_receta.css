@@ -1,0 +1,43 @@
+/*
+Estilo del detalle de la receta de la ventana modal
+*/
+/* 
+    Created on : 03-oct-2015, 18:35:34
+    Author     : guillermo
+*/
+
+#img{
+    float:right;
+    margin: 0 106px 10px 10px;
+}
+
+#detalle{
+    /*width: 600px;
+    float: left;*/
+}
+
+.titulo{
+    font-size: 28px !important;
+    color: #5c4831 !important;
+    font-weight: normal !important;
+    line-height: 1.2em !important;
+    margin-bottom: 10px !important;
+}
+
+h2{
+    color: #5c4831;
+    font-size: 26px !important;
+    font-weight: normal;
+    line-height: 1.2em;
+    margin-bottom: 10px;
+}
+
+#detalle li{
+    list-style-type: square;
+    color:#5c4831;
+    margin-left: 25px;
+}
+
+#detalle p{
+    margin-left: 16px;
+}

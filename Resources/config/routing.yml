@@ -60,8 +60,12 @@ TodoCerdoTodoCerdoBundle_addDetalle:
 TodoCerdoTodoCerdoBundle_eliminarDetalle:
     pattern:  /eliminarDetalle
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:eliminarDetalle }
-    requirements: { _method: get }
+    requirements: { _method: post }
     
+TodoCerdoTodoCerdoBundle_actualizarCantidadDetalle:
+    pattern:  /actualizarCantidadDetalle
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:actualizarCantidadDetalle }
+    requirements: { _method: post }
     
 TodoCerdoTodoCerdoBundle_darUbicacion:
     pattern:  /darUbicacion/{idUsuario}

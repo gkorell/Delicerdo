@@ -16,7 +16,8 @@
     {% for tipoProducto in tipoProductos %}
           <li>
             <div class="highlight-one">
-                <div class="prod-title"><label>L&iacute;nea de {{ tipoProducto.nombre }}</label></div>
+                <div class="prod-title">
+                    <a href="{{ path('TodoCerdoTodoCerdoBundle_listproductos',{'idTipo':tipoProducto.id}) }}">L&iacute;nea de {{ tipoProducto.nombre }}</a></div>
                 <hr class="prod-line">
                 <a href="{{ path('TodoCerdoTodoCerdoBundle_listproductos',{'idTipo':tipoProducto.id}) }}">
                     {%if tipoProducto.id == '1' %}

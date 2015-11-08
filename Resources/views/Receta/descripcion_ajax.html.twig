@@ -1,9 +1,13 @@
-<h1>{{ receta.titulo }}</h1>
+<h1 class="titulo">{{ receta.titulo }}</h1>
 
 <div>
-    <img src="{{ asset(receta.getWebPath()) }}" height="120" width="160">
+    <div id="img">
+        <img src="{{ asset(receta.getWebPath()) }}" height="205" width="400">
+    </div>
+    <div id="detalle">
     {#{% autoescape false %}#}
     {{ receta.detalle|raw }}
     {#{% endautoescape %}#}
+    </div>
 </div>
 <a class="close-reveal-modal">&#215;</a>

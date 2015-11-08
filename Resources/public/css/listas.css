@@ -1,5 +1,6 @@
 /*----index PRODUCTOS-----*/
-.prod-title {font-family: 'Lobster'; font-size:16px; font-weight: bold; line-height:17px; color:#3E2C05; text-decoration:none; margin-bottom: 10px; text-align: center; }
+.prod-title {margin-bottom: 10px; text-align: center;}
+.prod-title a{font-family: 'Lobster'; font-size:16px; font-weight: bold; line-height:17px; color:#3E2C05; text-decoration:none;}
 .prod-line{color:#3E2C05; background-color:#3E2C05; width: 80%; margin-bottom: 10px; text-align: center; border:0px; height: 1px;}
 /*Column 190px: Start*/
 div.column-190_prod { width:160px; padding-right:29px; margin-right:29px; float:left;}

@@ -10,6 +10,7 @@ namespace TodoCerdo\TodoCerdoBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use TodoCerdo\TodoCerdoBundle\Form\DireccionType;
 use TodoCerdo\TodoCerdoBundle\Form\PedidoType;
@@ -96,21 +97,27 @@ class PedidoController extends Controller {
         $precioTotal = $session->get('precioTotal');
         $cantidadTotal = $session->get('cantidadTotal');
         $cantidad = $carrito[$elemento]->getCantidad();
-        $precio = $this->getRequest()->get("subtotal");
+        $precio = $carrito[$elemento]->calcularSubtotal();
         
         unset($carrito[$elemento]);
         $carrito = array_values($carrito);
         
         $precioTotal = $precioTotal - $precio;
-        $cantidadTotal = $cantidadTotal - $cantidad; 
+        $cantidadTotal = $cantidadTotal - 1; 
         
         $session->set('precioTotal',$precioTotal);
         $session->set('cantidadTotal',$cantidadTotal);
         $session->set('carrito', $carrito);
         
-        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarritoAjax.html.twig', 
+        $plantilla = $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarritoAjax.html.twig', 
                 array('carrito'=> $carrito,
                       'precioTotal'=>$precioTotal));
+        
+        if (count($carrito)==0){
+           $plantilla =  $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarritoVacioAjax.html.twig');   
+        }
+        
+        return $plantilla;
            
     }
 
@@ -126,6 +133,33 @@ class PedidoController extends Controller {
         return $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarrito.html.twig', 
                 array('carrito'=> $carrito,
                       'precioTotal'=>$precioTotal));
+    }
+    
+    public function actualizarCantidadDetalleAction(){
+        
+        $session = $this->getRequest()->getSession();
+        $carrito = $session->get('carrito');
+        $precioTotal = $session->get('precioTotal');
+        
+        $elemento = $this->getRequest()->get("elemento");
+        $new_cant = $this->getRequest()->get("new_cant");
+        
+        
+        $detalle = new Detalle();
+        $detalle = $carrito[$elemento];
+        $old_subtotal  = $detalle->calcularSubtotal();
+        $detalle->setCantidad($new_cant);
+        $new_subtotal = $detalle->calcularSubtotal();
+        $carrito[$elemento]=$detalle;
+        
+        $precioTotal = $precioTotal - $old_subtotal + $new_subtotal;
+        
+        $session->set('carrito', $carrito);
+        $session->set('precioTotal', $precioTotal);
+        
+        $data = array('new_subtotal' => $new_subtotal, 'new_precioTotal' => $precioTotal, 'elemento'=>$elemento);
+        
+        return new JsonResponse($data);
     }
 
     public function darUbicacionAction($idUsuario) {
@@ -225,7 +259,8 @@ class PedidoController extends Controller {
         
         $direcciones = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion')->findByUsuario($idUsuario);
         $arreglo_form = $this->actualizaFormDireccion($id);
-        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:darUbicacionAjax.html.twig',$direcciones, $arreglo_form);
+        $plantilla = $this->render('TodoCerdoTodoCerdoBundle:Pedido:darUbicacionAjax.html.twig',array('direccion'=>$direccion,'direcciones'=>$direcciones,'localidades'=>$arreglo_form['localidades'], 'zonas'=>$arreglo_form['zonas'],'localidadId'=>$arreglo_form['localidadId'],'zonaId'=>$arreglo_form['zonaId']));
+        return $plantilla; 
         
     }
     

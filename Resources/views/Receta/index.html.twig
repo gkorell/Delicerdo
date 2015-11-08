@@ -2,9 +2,13 @@
 
 {% block stylesheets %}
 {{ parent() }}
-{% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/listas.css' %}
+{% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/listas.css' filter='cssrewrite' %}
     <link rel="stylesheet" href="{{ asset_url }}" />
 {% endstylesheets %}
+{% stylesheets 'bundles/todocerdotodocerdo/css/detalle_receta.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
 {% stylesheets 'bundles/todocerdotodocerdo/css/reveal.css' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -43,17 +47,15 @@
 {% endfor %}
 </ul>
 <br/>
-<ul>
-    <li>
+<div>
         {% if is_granted("ROLE_ADMIN") %}
      
             <a class="button" href="{{ path('receta_new') }}">
                 Agregar nueva receta
             </a>
         {% endif %}
-    </li>
-</ul>
-<div id="myModal" class="reveal-modal"></div>
+</div>
+<div id="myModal" class="reveal-modal xlarge"></div>
 {% endblock %}
 
 {% block javascripts %}
