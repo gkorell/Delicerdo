@@ -3,7 +3,7 @@
 
 {% block stylesheets %}
 {{ parent() }}
-    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/listas.css' %}
+    {% stylesheets 'bundles/todocerdotodocerdo/css/listas.css' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 

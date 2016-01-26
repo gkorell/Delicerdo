@@ -31,7 +31,7 @@ class PedidoType extends AbstractType
         $builder->add('horarioTentativo','text');
         $builder->add('confirmarPrecio', 'checkbox', array('label'=>'Confirmar Precio','required'=>false));
         $builder->add('medioConfirmacion', 'choice', array('choices' => array('email' => 'Email', 'mensaje' => 'Mensaje de Texto'),'disabled'=>'true'));
-        $builder->add('pagaCon', 'money');
+        $builder->add('pagaCon', 'money',array('currency'=>'ARS'));
         $builder->add('save', 'submit', array('label' => 'Confirmar Pedido'));
         //$builder->addEventSubscriber(new AddEstadoFieldListener());
         

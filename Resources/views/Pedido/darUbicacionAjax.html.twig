@@ -16,55 +16,33 @@
 <input id="agregar" class="modal_desc" type="button" value="Agregar dirección">
 </div>
 <div>
-    <form class="blogger" id="form_dar_ubicacion" action="/app_dev.php/continuarPedido" method="post" >
+    <form class="blogger" id="form_dar_ubicacion"
+              action="{{ path('TodoCerdoTodoCerdoBundle_continuarPedido') }}" 
+              method="post" {{ form_enctype(form) }} >
         
-    <div>
-        <label for="direccion_Localidad" class=" required">Localidad</label>
-        <select id="direccion_Localidad" name="direccion[Localidad]" required="required" disabled="true">
-            {%for localidad in localidades %}
-                {%if localidad.id == localidadId %}
-                    <option value="{{localidad.id}}" selected="selected">{{localidad.nombre}}</option>
-                {%else%}
-                    <option value="{{localidad.id}}" >{{localidad.nombre}}</option>
-                {%endif%}
-            {%endfor%}
-        </select>
-    </div>
-    <div>
-        <label for="direccion_Zona" class=" required">Zona</label>
-        <select id="direccion_Zona" name="direccion[Zona]" required="required" disabled="true">
-            {%for zona in zonas %}
-                {%if zona.id == zonaId%}
-                    <option value="{{zona.id}}" selected="selected" disabled="true">{{zona.nombre}}</option>
-                {%else%}
-                    <option value="{{zona.id}}">{{zona.nombre}}</option>
-                {%endif%}
-            {%endfor%}
-        </select>
-    </div> 
-        
-<div>
-    <label for="direccion_Calle" class=" required">Calle</label>
-    <input id="direccion_Calle" name="direccion[Calle]" required="required" type="text" readonly="true" value="{{direccion.calle}}">
-</div>
+                {{ form_row(form.Localidad, {'attr': {'disabled':'true'} })}}
+            
 
-    <input id="direccion__token" name="direccion[_token]" value="3822bcdf9dc09042fb73124a06aac0934079a1a7" type="hidden">
-    <div>
-        <label for="direccion_Altura" class=" required">Altura</label>
-        <input id="direccion_Altura" name="direccion[Altura]" required="required" type="text" readonly="true" value="{{direccion.altura}}">
-    </div>
-    <div>
-        <label for="direccion_Piso" class=" required">Piso</label>
-        <input id="direccion_Piso" name="direccion[Piso]" required="required" type="text" readonly="true" value="{{direccion.piso}}">
-    </div>
-    <div>
-        <label for="direccion_Departamento" class=" required">Departamento</label>
-        <input id="direccion_Departamento" name="direccion[Departamento]" required="required" type="text" readonly="true" value="{{direccion.departamento}}">
-    </div>
-    <div>
-        <label for="direccion_Nombre" class=" required">Nombre</label>
-        <input id="direccion_Nombre" name="direccion[Nombre]" required="required" type="text" readonly="true" value="{{direccion.nombre}}">
-    </div>
-    
+                {{ form_row(form.Zona, {'attr': {'disabled':'true'} })}}
+                
+           
+                {{form_row(form.Calle, { 'attr': { 'readonly': 'true' } })}}
+            
+            
+                {{form_row(form.Altura,{ 'attr': { 'readonly': 'true' } })}}
+            
+            
+                {{form_row(form.Piso,{ 'attr': { 'readonly': 'true' } })}}
+            
+            
+                {{form_row(form.Departamento,{ 'attr': { 'readonly': 'true' } })}}
+            
+            
+                {{form_row(form.Nombre,{ 'attr': { 'readonly': 'true' } })}}
+           
+
+            <input type="submit" value="Continuar con el Pedido" />
+            {{ form_rest(form) }}
+        
     </form>
 </div>

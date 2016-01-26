@@ -25,17 +25,15 @@
         <label class=" required" for="direccion">Direccion</label>
 
         <select id="direccion" required="required" name="direccion">
-{% for direccion in direccion %}
-{#aca hacer el select cargando las zonas#}
+            {% for direccion in direccion %}
+            {#aca hacer el select cargando las zonas#}
 
                 <option value="{{direccion.id}}">{{direccion.nombre}}</option>
 
+            {%endfor%}
 
-
-
-{%endfor%}
-
-            </select> <input id="agregar" class="modal_desc" type="button" value="Agregar direcci&oacute;n"/>
+        </select> 
+        <input id="agregar" class="modal_desc" type="button" value="Agregar direcci&oacute;n"/>
 
 
 </div>
@@ -75,6 +73,10 @@
     
 {% endblock %}
 
+{% block sidebar %}
+
+{% endblock %}
+
  {% block javascripts %}
 
      {{ parent() }}
@@ -82,7 +84,7 @@
 
             $(document).ready(function() {
                 
-               $("#agregar").click(function() { //evento click del boton continuar pedido
+              $("#todo").on('click',"#agregar",function() { //evento click del boton continuar pedido
                     //var id = $(this).attr("name");
                     var url = "{{ path('TodoCerdoTodoCerdoBundle_agregarDireccion') }}";
             
@@ -102,8 +104,8 @@
 
                     
                 });
-                
-                $("#direccion").change(function() {
+                $("#todo").on("change","#direccion",function() {
+                //$("#direccion").change(function() {
                     var idDireccion = $(this).val();
                     var urlDireccion = "{{path('TodoCerdoTodoCerdoBundle_obtenerDireccion')}}";
                     $.ajax({
@@ -113,6 +115,7 @@
                         success: function(data) {
                             //$.each(data, function(i,item){
                             $('.blogger').html(data);
+                            $('#myModal').trigger('reveal:close');
                             //$(".blogger #calle #direccion_Calle").val=data.calle;
                             //console.log($('form #calle').html(data));
                             //});
@@ -124,7 +127,7 @@
                     });
                 });
                 
-                $("#myModal").on("change","#direccion_Localidad",function() {//evento on click
+                $("#myModal").on("change","#direccion_Localidad",function() {
 
                     var id = $(this).val();
                     //console.log(id);
@@ -147,6 +150,27 @@
                 });
            
                 
+                $('#myModal').on('submit','#form_agregar_direccion',function(e){
+                    e.preventDefault();
+                    
+                    var url="{{ path('TodoCerdoTodoCerdoBundle_agregarDirAjax') }}";
+                    $.ajax({
+                        type:"POST",
+                        url:url,
+                        data: $(this).serialize(),
+                        dataType: "html",
+                        //data:"id="+id,//concateno dos string
+                        success: function(data){
+                            console.log(data);
+                            $('#todo').html(data);
+                        },
+                        error: function(data) {
+                            alert("ERROR");
+                        }
+                    });
+                });
+                    
+               
             });
             
             

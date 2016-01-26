@@ -17,7 +17,6 @@
 	.reveal-modal {
 		visibility: hidden;
 		top: 80px; 
-		
 		margin-left: 173px;
 		width: 520px;
 		background: #f9f0b9 url(../images/modal-gloss.png) no-repeat -200px -80px;
@@ -37,7 +36,7 @@
 	.reveal-modal.large 		{ width: 600px; margin-left: -340px;}
 	.reveal-modal.xlarge 		{ width: 875px; margin-left: 3px; top:100px;}
 	
-	.reveal-modal .close-reveal-modal {
+	.reveal-modal a.close-reveal-modal {
 		font-size: 22px;
 		line-height: .5;
 		position: absolute;

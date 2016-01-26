@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
 {{ parent() }}
-{% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/listas.css' filter='cssrewrite' %}
+{% stylesheets 'bundles/todocerdotodocerdo/css/listas.css' filter='cssrewrite' %}
     <link rel="stylesheet" href="{{ asset_url }}" />
 {% endstylesheets %}
 {% stylesheets 'bundles/todocerdotodocerdo/css/detalle_receta.css' filter='cssrewrite' %}

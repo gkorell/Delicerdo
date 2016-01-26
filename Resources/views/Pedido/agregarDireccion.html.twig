@@ -1,8 +1,6 @@
 {# agregarDireccion: Pedido #}
 {# src/TodoCerdo/TodoCerdoBundle/Resources/views/Pedido/agregarDireccion.html.twig #}
 
-{% block title %}Agregar Direcci&oacute;n{% endblock%}
-
 {% block body %}
 
 
@@ -12,7 +10,7 @@
 <div>
     {#Cargo formulario "DireccionType.php". #}
         <form class="blogger" id="form_agregar_direccion"
-              action="{{ path('TodoCerdoTodoCerdoBundle_agregarDirAjax') }}" 
+              action="#" 
               method="post" {{ form_enctype(form) }} >
 
                 {{ form_row(form.Localidad)}}
@@ -37,7 +35,7 @@
                 {{form_row(form.Nombre)}}
             </div>
 
-            <input type="submit" value="Agregar Direcci&oacute;n" />
+            <input id="agregar_direccion" class="close-reveal-modal" type="submit" value="Agregar Direcci&oacute;n"/>
             {{ form_rest(form) }}
         </form>
     </div>{# empty Twig template #}
@@ -45,4 +43,3 @@
 {% endblock %}
 
 
-    

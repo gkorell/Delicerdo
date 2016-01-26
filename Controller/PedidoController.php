@@ -258,9 +258,12 @@ class PedidoController extends Controller {
         }
         
         $direcciones = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion')->findByUsuario($idUsuario);
-        $arreglo_form = $this->actualizaFormDireccion($id);
-        $plantilla = $this->render('TodoCerdoTodoCerdoBundle:Pedido:darUbicacionAjax.html.twig',array('direccion'=>$direccion,'direcciones'=>$direcciones,'localidades'=>$arreglo_form['localidades'], 'zonas'=>$arreglo_form['zonas'],'localidadId'=>$arreglo_form['localidadId'],'zonaId'=>$arreglo_form['zonaId']));
-        return $plantilla; 
+        $localidades = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
+        //$arreglo_form = $this->actualizaFormDirecciones($id);
+        //$plantilla = $this->render('TodoCerdoTodoCerdoBundle:Pedido:darUbicacionAjax.html.twig',array('direccion'=>$direccion,'direcciones'=>$direcciones,'localidades'=>$arreglo_form['localidades'], 'zonas'=>$arreglo_form['zonas'],'localidadId'=>$arreglo_form['localidadId'],'zonaId'=>$arreglo_form['zonaId']));
+        //return $plantilla; 
+        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:darUbicacionAjax.html.twig', array(
+                    'form' => $form->createView(), 'direccion'=>$direccion, 'direcciones' => $direcciones, 'localidad' => $localidades, 'usuario' => $idUsuario));
         
     }
     
