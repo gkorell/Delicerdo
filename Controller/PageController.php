@@ -54,6 +54,7 @@ class PageController extends Controller
         }
         return $this->render('TodoCerdoTodoCerdoBundle:Page:contact.html.twig', array('form' => $form->createView()));
     }
+    
     public function faqAction()
     {
         return $this->render('TodoCerdoTodoCerdoBundle:Page:faq.html.twig');
@@ -72,7 +73,7 @@ class PageController extends Controller
             
         }else{
             $contenido_boton = 'Tu carrito esta vacio';
-            //$href_boton = '';
+            $href_boton = '';
         }
          return $this->render('TodoCerdoTodoCerdoBundle:Page:sidebar.html.twig', 
                 array('cantidadTotal' => $cantidadTotal,
