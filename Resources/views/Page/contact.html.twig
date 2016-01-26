@@ -14,9 +14,9 @@
     </header>
 
 {# esto es para la salida de los mensajes flash #}
-{% for flashMessage in app.session.FlashBag.get('blogger-notice') %}
+{% for flashMessage in app.session.FlashBag.get('message-notice') %}
 
-    <div class="blogger-notice">
+    <div class="message-notice">
         {{ flashMessage }}
     </div>
 {% endfor %}

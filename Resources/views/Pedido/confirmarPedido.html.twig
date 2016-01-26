@@ -8,11 +8,11 @@
 {% block stylesheets %}
 {{ parent() }}
 
-    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/reveal.css' filter='cssrewrite' %}
+    {% stylesheets 'bundles/todocerdotodocerdo/css/reveal.css' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
     
-    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/jquery-ui.min.css' filter='cssrewrite' %}
+    {% stylesheets 'bundles/todocerdotodocerdo/css/jquery-ui.min.css' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 
@@ -50,6 +50,9 @@
     </div>   
 {% endblock %}
 
+{% block sidebar %}
+
+{% endblock %}
 
 {% block javascripts %}
     

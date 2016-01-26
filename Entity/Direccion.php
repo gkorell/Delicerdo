@@ -38,14 +38,14 @@ class Direccion
     /**
      * @var integer $piso
      *
-     * @ORM\Column(name="piso", type="integer", nullable=false)
+     * @ORM\Column(name="piso", type="integer", nullable=true)
      */
     protected  $piso;
 
     /**
      * @var string $departamento
      *
-     * @ORM\Column(name="departamento", type="string", length=3, nullable=false)
+     * @ORM\Column(name="departamento", type="string", length=3, nullable=true)
      */
     protected  $departamento;
 

@@ -4,7 +4,7 @@
 {% block stylesheets %}
 {{ parent() }}
 
-    {% stylesheets '@TodoCerdoTodoCerdoBundle/Resources/public/css/listas.css'%}
+    {% stylesheets 'bundles/todocerdotodocerdo/css/listas.css' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 
@@ -24,6 +24,7 @@
     <li>
         <div class="highlight-one">
             <a href="#" name="{{producto.id}}" class="modal_desc">
+
                 <img class="img_producto" src="{{ asset(producto.getWebPath()) }}" alt="{{producto.nombre}}">
             </a>
             <a href="#" name="{{producto.id}}" class="modal_desc recipe-title" title="{{ producto.nombre }}"><strong>{{ producto.nombre }}</strong></a>
