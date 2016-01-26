@@ -38,7 +38,7 @@ class Contacto {
     /**
      *
      * @Assert\Length(
-     *      min = "50",
+     *      min = "20",
      *      minMessage = "El mensaje no puede ser menor a  {{ limit }} caracteres."
      * )
      */     

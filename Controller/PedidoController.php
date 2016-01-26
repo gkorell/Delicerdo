@@ -167,6 +167,7 @@ class PedidoController extends Controller {
         // un valor null = 0.
         //recupero el idUsuario en el caso del valor null.
         $ObjUsuario = null;
+        $session = $this->getRequest()->getSession();
         if ($idUsuario == 0) {
 
             $usuario = $this->get('security.context')->getToken()->getUser()->getUsername();
@@ -177,18 +178,29 @@ class PedidoController extends Controller {
                 $idUsuario = $ObjUsuario->getId();
             }
         }
+        
+        $carrito = $session->get('carrito');
+        if(is_null($carrito)){
+            $this->get('session')->getFlashBag()->add('message-notice', 'Su carro de compras a caducado, por favor seleccione los productos nuevamente');
+            $url = 'TodoCerdoTodoCerdoBundle:Page:index.html.twig';
+            $form=null;
+            $direccion=null;
+            $localidad=null;
+        }else{
 
-        $direccion = new Direccion();
-                
-        //primero buscar las direcciones del usuario
-        $direccion = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion')->findByUsuario($idUsuario);
-        $localidad = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
-        //aca tengo que cargar el campo select
+            $direccion = new Direccion();
 
-        $form = $this->createForm(new DireccionType(), $direccion[0]);
+            //primero buscar las direcciones del usuario
+            $direccion = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Direccion')->findByUsuario($idUsuario);
+            $localidad = $this->getDoctrine()->getRepository('TodoCerdoTodoCerdoBundle:Localidad')->findAll();
+            //aca tengo que cargar el campo select
 
-        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:darUbicacion.html.twig', array(
-                    'form' => $form->createView(), 'direccion' => $direccion, 'localidad' => $localidad, 'usuario' => $idUsuario));
+            $form = $this->createForm(new DireccionType(), $direccion[0])->createView();
+            $url = 'TodoCerdoTodoCerdoBundle:Pedido:darUbicacion.html.twig';
+        }
+        
+        return $this->render($url, array(
+                    'form' => $form, 'direccion' => $direccion, 'localidad' => $localidad, 'usuario' => $idUsuario));
     }
     
     

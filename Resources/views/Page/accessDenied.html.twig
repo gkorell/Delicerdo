@@ -1,0 +1,17 @@
+{# empty Twig template #}
+{# src/TodoCerdo/TodoCerdoBundle/Resources/views/Page/faq.html.twig #}
+{% extends 'TodoCerdoTodoCerdoBundle::layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    
+{% endblock %}
+{% block title %}Acceso Denegado{% endblock%}
+
+{% block body %}
+   {% for flashMessage in app.session.FlashBag.get('error') %}
+
+    <div class="message-error">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+{% endblock %}

@@ -12,6 +12,7 @@ class PageController extends Controller
 {
     public function indexAction()
     {
+        
         return $this->render('TodoCerdoTodoCerdoBundle:Page:index.html.twig');
     }
     
@@ -36,12 +37,12 @@ class PageController extends Controller
             
             $message = \Swift_Message::newInstance()
                     ->setSubject('Consulta de contacto de todocerdodigital.com')
-                    ->setFrom('enquiries@symblog.co.uk')
+                    ->setFrom('guillermo.korell@gmail.com')
                     ->setTo($this->container->getParameter('blogger_blog.emails.contact_email'))
                     ->setBody($this->renderView('TodoCerdoTodoCerdoBundle:Page:contactEmail.txt.twig', array('contacto' => $contacto)));
                $this->get('mailer')->send($message);
 
-               $this->get('session')->setFlash('blogger-notice', 'Su consulta ha sido enviada satisfactoriamente. Gracias!');
+               $this->get('session')->getFlashBag()->add('message-notice', 'Su consulta ha sido enviada satisfactoriamente. Gracias!');
 
             // Redirect - This is important to prevent users re-posting
             // the form if they refresh the page
@@ -72,7 +73,7 @@ class PageController extends Controller
             
         }else{
             $contenido_boton = 'Tu carrito esta vacio';
-            //$href_boton = '';
+            $href_boton = '';
         }
          return $this->render('TodoCerdoTodoCerdoBundle:Page:sidebar.html.twig', 
                 array('cantidadTotal' => $cantidadTotal,
@@ -80,6 +81,14 @@ class PageController extends Controller
                     'contenidoBoton' => $contenido_boton,
                     'hrefBoton' => $href_boton
                    ));
+    }
+    
+    public function unauthorizedAction(){
+        $session = $this->get('session');
+        $usuario = $this->get('security.context')->getToken()->getUser()->getUsername();
+        $session->getFlashBag()->add('error', 'El usuario "'.$usuario. '" no está autorizado para acceder a este sitio');
+        
+        return $this->render('TodoCerdoTodoCerdoBundle:Page:accessDenied.html.twig');
     }
  }
 ?>

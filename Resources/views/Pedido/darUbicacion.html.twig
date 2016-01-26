@@ -163,6 +163,7 @@
                         success: function(data){
                             console.log(data);
                             $('#todo').html(data);
+                            $('#myModal').trigger('reveal:close');
                         },
                         error: function(data) {
                             alert("ERROR");

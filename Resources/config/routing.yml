@@ -22,6 +22,11 @@ TodoCerdoTodoCerdoBundle_faq:
     requirements:
         _method:  GET
 
+TodoCerdoTodoCerdoBundle_accessDenied:
+    pattern:  /accessDenied
+    defaults: { _controller: TodoCerdoTodoCerdoBundle:Page:unauthorized }
+    requirements:
+        _method:  GET
 
 TodoCerdoTodoCerdoBundle_newproducto:
     pattern:  /newproducto
