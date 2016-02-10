@@ -92,3 +92,5 @@ and open the template in the editor.
 .login-block button:hover {
     background: #ff7b81;
 }
+
+#login_error{}

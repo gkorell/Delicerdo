@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TodoCerdo\TodoCerdoBundle\Entity\Detalle
  *
- * @ORM\Table(name="Detalle")
+ * @ORM\Table(name="detalle")
  * @ORM\Entity
  */
 

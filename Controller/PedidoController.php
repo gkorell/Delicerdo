@@ -460,17 +460,17 @@ class PedidoController extends Controller {
         }//end if post
         
         if($enviado == 'OK'){
-            $mensage = "Su pedido ha sido procesado con &eacute;xito";
-            $session->remove($carrito);
-            $session->remove($cantidadTotal);
-            $session->remove($direccionEnvio);
-            $session->remove($precioTotal);
+            $mensage = "Su pedido ha sido procesado correctamente";
+            $session->remove('carrito');
+            $session->remove('cantidadTotal');
+            $session->remove('direccionEnvio');
+            $session->remove('precioTotal');
             
         }else{
-            $mensage = "Ocurri&oacute; un error al procesar el pedido. Por favor intente nuevamente";
+            $mensage = "Ha ocurrido un error al procesar el pedido. Por favor intente nuevamente";
         }
         
-        Return $this->render('TodoCerdoTodoCerdoBundle:Pedido:pedidoFinalizado.html.twig',array('mensaje'=>$mensaje));
+        Return $this->render('TodoCerdoTodoCerdoBundle:Pedido:pedidoFinalizado.html.twig',array('mensaje'=>$mensage));
         
     }//end action
     

@@ -1,5 +1,3 @@
-.message-notice { text-align: center; padding: 10px; background: #DFF2BF; border: 1px solid; color: #4F8A10; margin-bottom: 10px; }
-.message-error { text-align: center; padding: 10px; background: #FDD8D8; border: 1px solid; color: #f62525; margin-bottom: 10px; }
 form.blogger { font-size: 16px; }
 form.blogger div {/* float:left;*/ margin-bottom: 10px; }
 form.blogger label { 
