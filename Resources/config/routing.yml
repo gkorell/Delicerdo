@@ -121,6 +121,11 @@ TodoCerdoTodoCerdoBundle_editarPedido:
     pattern: /editarPedido/
     defaults: { _controller: TodoCerdoTodoCerdoBundle:Pedido:editarPedido}
     requirements: {_method: GET|POST}
+    
+TodoCerdoTodoCerdoBundle_editarEstadoPedido:
+    pattern: /editarEstadoPedido/
+    defaults: {_controller: TodoCerdoTodoCerdoBundle:Pedido:editarEstadoPedido}
+    requirements: {_method: POST}
 
 receta:
     pattern:  /receta/

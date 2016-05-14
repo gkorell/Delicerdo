@@ -6,10 +6,15 @@
     {% stylesheets 'bundles/todocerdotodocerdo/css/listas.css' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
-
 {% endblock %}
 
 {% block body %}
+
+{% for flash_message in app.session.flashbag.get('notice') %}
+    <div class="message-notice">
+        {{ flash_message }}
+    </div>
+{% endfor %}     
 <h1>Nuestros Productos</h1>
 
  <ul class="column-190_prod paging">

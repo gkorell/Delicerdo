@@ -1,0 +1,28 @@
+<table>  
+    <tr>
+                {# sorting of properties based on query components #}
+        <th>{{ knp_pagination_sortable(pagination, 'Id', 'p.id') }}</th>
+        <th{% if pagination.isSorted('p.fechaEntrega') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination,'Fecha de Entrega','p.fechaEntrega')}}</th>
+        <th>Horario</th>
+        <th>Direccion</th>
+        <th>Usuario</th>
+        <th>Estado</th>
+        <th></th>
+    </tr>
+    {% for pedido in pagination %}
+                    
+        <tr>
+            <td>{{ pedido.id }}</td>
+            <td>{{ pedido.fechaEntrega|date("m/d/Y") }}</td>
+            <td>{{ pedido.horarioTentativo }}</td>
+            <td>{{ pedido.direccion.Localidad~" "~pedido.direccion.Calle~" "~pedido.direccion.altura}}</td>
+            <td>{{pedido.usuario}}</td>
+            <td>{{ pedido.estado }}</td>
+            <td><a href="#" class="editar_pedido" name="{{pedido.id}}">Ver Pedido</a></td>
+        </tr>
+    {% endfor %}
+</table>
+          
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>

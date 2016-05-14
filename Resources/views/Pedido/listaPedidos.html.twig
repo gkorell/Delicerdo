@@ -18,12 +18,10 @@
 {% block body %}
     
     <div id="cuerpo">
-            <h1>Pedido - Listado y busqueda de pedidos</h1>
+            <h2>Listado y busqueda de pedidos</h2>
             <p>Realice la bbusqueda de los pedidos seg&uacute;n los criterios disponibles a continuaci&oacute;n:</p>
             
-            <div class="count">
-            {{ pagination.getTotalItemCount }}
-            </div>
+        <div id="listaPedidos">
             <table>  
                 <tr>
                 {# sorting of properties based on query components #}
@@ -31,6 +29,7 @@
                 <th{% if pagination.isSorted('p.fechaEntrega') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination,'Fecha de Entrega','p.fechaEntrega')}}</th>
                 <th>Horario</th>
                 <th>Direccion</th>
+                <th>Usuario</th>
                 <th>Estado</th>
                 <th></th>
                 </tr>
@@ -41,6 +40,7 @@
                          <td>{{ pedido.fechaEntrega|date("m/d/Y") }}</td>
                          <td>{{ pedido.horarioTentativo }}</td>
                          <td>{{ pedido.direccion.Localidad~" "~pedido.direccion.Calle~" "~pedido.direccion.altura}}</td>
+                         <td>{{pedido.usuario}}</td>
                          <td>{{ pedido.estado }}</td>
                          <td><a href="#" class="editar_pedido" name="{{pedido.id}}">Ver Pedido</a></td>
                     </tr>
@@ -50,7 +50,7 @@
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
             </div>
-            
+        </div>
             
     </div>
     
@@ -67,7 +67,7 @@
 
             $(document).ready(function(){
                
-               $('.editar_pedido').on('click', function(event){
+               $('#listaPedidos').on('click','.editar_pedido', function(event){
                    
                    event.preventDefault();
                    
@@ -91,6 +91,8 @@
                    
                    
                });
+               
+               
                
             });
             

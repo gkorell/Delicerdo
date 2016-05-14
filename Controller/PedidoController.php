@@ -66,8 +66,11 @@ class PedidoController extends Controller {
         $precioTotal = $session->get('precioTotal');
         
         if (isset($precioTotal)) {
+            
             $precioTotal = $subTotal + $precioTotal;
+            
         } else {
+            
             $precioTotal = $subTotal;
         }
         array_push($carrito, $detalle);
@@ -84,7 +87,7 @@ class PedidoController extends Controller {
                       'precioTotal' => $precioTotal,
                     'contenidoBoton' => $contenido_boton,
                     'hrefBoton' => $href_boton
-                   ));
+                ));
     }
     
     
@@ -114,7 +117,8 @@ class PedidoController extends Controller {
                       'precioTotal'=>$precioTotal));
         
         if (count($carrito)==0){
-           $plantilla =  $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarritoVacioAjax.html.twig');   
+           $mensaje = 'Su carro de compras no contiene productos. Por favor, continue comprando.';
+           $plantilla =  $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarritoVacioAjax.html.twig',array('mensaje'=>$mensaje));   
         }
         
         return $plantilla;
@@ -125,14 +129,27 @@ class PedidoController extends Controller {
     public function detalleCarritoAction(){
         $session = $this->getRequest()->getSession();
         $carrito = $session->get('carrito');
-        
+        $cantidadTotal = $session->get('cantidadTotal');
         $precioTotal = $session->get('precioTotal');
         
-                
+        if($cantidadTotal==0){
+            $this->addFlash(
+            'notice',
+            'Su carro de compras no contiene productos. Por favor, continue comprando.');
+                   
+            return $this->redirectToRoute('TodoCerdoTodoCerdoBundle_productos');
+            //$plantilla = $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarrito.html.twig');        
         
-        return $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarrito.html.twig', 
+        }   
+           
+        
+            $plantilla = $this->render('TodoCerdoTodoCerdoBundle:Pedido:detalleCarrito.html.twig', 
                 array('carrito'=> $carrito,
                       'precioTotal'=>$precioTotal));
+            
+        
+        return $plantilla;
+        
     }
     
     public function actualizarCantidadDetalleAction(){
@@ -480,7 +497,9 @@ class PedidoController extends Controller {
         $request = $this->getRequest();
         $orden=null;
         $direction=null;
-        
+        //$isAjax = $this->get('Request')->isXMLHttpRequest();
+        //if ($isAjax) {  
+        $isAjax = $request->isXmlHttpRequest();
         if ($request->getMethod() == "GET") {
             $orden=$request->get('sort');
             $direction=$request->get('direction');
@@ -497,7 +516,7 @@ class PedidoController extends Controller {
         
         
         $em = $this->getDoctrine()->getEntityManager();
-        $dql = 'SELECT p, e FROM TodoCerdoTodoCerdoBundle:Pedido p JOIN p.estado e WHERE e.id=:id ORDER BY '.$orden.' '.$direction.'';
+        $dql = 'SELECT p, e, u FROM TodoCerdoTodoCerdoBundle:Pedido p JOIN p.estado e JOIN p.usuario u WHERE e.id=:id ORDER BY '.$orden.' '.$direction.'';
         $query = $em->createQuery($dql)->setParameter('id', 1); //parametro de estado
         
         //$query = $em->createQuery('SELECT p, e FROM TodoCerdoTodoCerdoBundle:Pedido p JOIN p.estado e WHERE e.id=:id ORDER BY p.fecha DESC')->setParameter('id', 1);
@@ -507,9 +526,18 @@ class PedidoController extends Controller {
         $query,
         $this->getRequest()->query->get('page', 1), 5);
         
+        //renderiza una vista u otra dependiendo de si el request viene por ajax o no
+        if($isAjax){
+            
+            $vista = $this->render('TodoCerdoTodoCerdoBundle:Pedido:listaPedidosAjax.html.twig', compact('pagination'));
+            
+        }else{
+            
+            $vista = $this->render('TodoCerdoTodoCerdoBundle:Pedido:listaPedidos.html.twig', compact('pagination'));
+        }
 
-    return $this->render(
-        'TodoCerdoTodoCerdoBundle:Pedido:listaPedidos.html.twig', compact('pagination'));
+        return $vista;
+        // 'TodoCerdoTodoCerdoBundle:Pedido:listaPedidos.html.twig', compact('pagination'));
     }
 
     
@@ -537,6 +565,10 @@ class PedidoController extends Controller {
                 $detalle = $em->getRepository('TodoCerdoTodoCerdoBundle:Detalle')->findByPedido($idPedido);
                 //$editForm = $this->createForm(new PedidoType(), $pedido);
                 //$deleteForm = $this->createDeleteForm($idProducto);
+                $total = 0;
+                foreach ($detalle as $det){
+                    $total = $total + $det->calcularSubtotal();
+                }
             }
             
             $estados = $em->getRepository('TodoCerdoTodoCerdoBundle:Estado')->findAll();
@@ -544,12 +576,52 @@ class PedidoController extends Controller {
         return $this->render('TodoCerdoTodoCerdoBundle:Pedido:editarPedidoAjax.html.twig', array(
             'pedido' => $pedido,
             'detalle' => $detalle,
-            'estados' => $estados
+            'estados' => $estados,
+            'total' => $total
             ));
         }
         
     }
     
+    public function editarEstadoPedidoAction(){
+     
+        $request = $this->getRequest();
+        $idPedido=null;
+        $idEstado = null;
+        $em = $this->getDoctrine()->getManager();
+         if ($request->getMethod() == "POST") {
+             
+             $idPedido = $request->get('idPedido');
+             $idEstado = $request->get('idEstado');
+             $estado = $em->getRepository('TodoCerdoTodoCerdoBundle:Estado')->find($idEstado);
+                        
+             $pedido = $em->getRepository('TodoCerdoTodoCerdoBundle:Pedido')->find($idPedido);
+            
+             if(!$pedido ){
+                
+                throw $this->createNotFoundException('El pedido no existe');
+                
+            }else{
+                
+                
+                $pedido->setEstado($estado);
+                $em->persist($pedido);
+                $em->flush();
+                
+            }
+            
+            $estados = $em->getRepository('TodoCerdoTodoCerdoBundle:Estado')->findAll();
+            
+            $response = $this->forward('TodoCerdoTodoCerdoBundle:Pedido:listarPedidos');
+            return $response;
+            //return new Response('true');
+            /*return $this->render('TodoCerdoTodoCerdoBundle:Pedido:editarEstadoPedidoAjax.html.twig', array(
+            'estados' => $estados,
+            'estadoSelec' => $estado
+            ));*/
+             
+         }
+    }
 }//end controller
 
 ?>

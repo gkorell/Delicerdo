@@ -1,5 +1,7 @@
 {# empty Twig template #}
+<input type="hidden" id="idPedido" value="{{pedido.id}}"/>
 <lable>Estado del Pedido:</lable>
+<div id="selectEstados">
 <select name="estado" id="estado">
     {% for estado in estados %}
         {%if pedido.estado == estado %}
@@ -9,6 +11,7 @@
         {%endif%}
     {%endfor%}
 </select>
+</div>
 <h3>Detalle del Pedido:</h3>
 <table>
     <th>Producto</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th>
@@ -22,6 +25,54 @@
             <td>${{det.calcularSubtotal}}</td>
         </tr>
         
-    {%endfor%}    
+        
+    {%endfor%}   
+    <tr><td></td><td></td><td><b>Total:</b></td><td><b>${{total|number_format(2, ',', '.') | default('0.00')}}</b></td></tr>
+    
 </table>
+
     <div class="leyenda"><p>Costo de env&iacute;o: ${{pedido.direccion.zona.costoEnvio}}</p></div><div class="total"><p></p></div><div class="pagacon"></div>
+    <a class="close-reveal-modal">&#215;</a>
+    <button type="button" class="close-reveal-modal">Aceptar</button>
+    <script type="text/javascript">
+        
+    $('.close-reveal-modal').on('click', function(){
+        var url="{{ path('TodoCerdoTodoCerdoBundle_listarPedidos') }}";
+            $.ajax({
+                type:"POST",
+                url:url,
+                dataType: "html",
+                //data:"id="+id,//concateno dos string
+                success: function(data){
+                    $('#listaPedidos').html(data);
+                    //console.log(data)
+                }
+            });
+        
+    });
+    $('#estado').on('change',function(){
+                 
+                    var id = $(this).val();
+                    //console.log(id);
+                    var idPedido = $('#idPedido').val();
+                    //console.log(idPedido);
+                    var url="{{ path('TodoCerdoTodoCerdoBundle_editarEstadoPedido') }}";
+                    $.ajax({
+                        type:"POST",
+                        url:url,
+                        data: {idEstado:id, idPedido:idPedido},
+                        dataType: "html",
+                        //data:"id="+id,//concateno dos string
+                        success: function(data){
+                            //console.log(data)
+                                //location.href(data);
+                            //$('#selectEstados').html(data);
+                        },
+                        error: function(data) {
+                            alert("ERROR");
+                        }
+                    });
+        
+               });
+               
+    </script>
